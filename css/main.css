@@ -1,0 +1,156 @@
+* {
+  box-sizing:border-box;
+}
+html, body {
+  overflow:hidden;
+  height: 100%;
+}
+html {
+  margin:0;
+  padding:0;
+}
+body {
+  margin:0;
+  padding:0;
+  background-color:#4592b7;
+  width:100%;
+  min-height:100%;
+  font-family:Verdana, Tahoma, Geneva, sans-serif;
+  color:#FFF;
+  letter-spacing: 1.1px;
+  cursor:default;
+}
+
+a {
+  color:inherit;
+  text-decoration:none;
+}
+
+main {
+  width:100%;
+  height:100%;
+}
+main > content {
+  width:62.5%;
+  display:inline-block;
+  height:100%;
+  position:relative;
+}
+aside {
+  height:100%;
+  width:37.5%;
+  display:inline-block;
+  vertical-align:top;
+  z-index:100;
+}
+
+aside section {
+  padding:20px;
+  z-index:200;
+}
+aside section header {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+aside section:nth-child(1) {
+  position:relative;
+  height:62.5%;
+}
+aside section:nth-child(1).has-hover:hover {
+  cursor:pointer;
+  opacity:0.9;
+}
+aside section:nth-child(2) {
+  height:37.5%;
+  width:100%;
+}
+
+
+.red_bar {
+  background-color:#940000;
+  position:absolute;
+  z-index:101;
+}
+.bar_bottom {
+  height:20px;
+  width:0px;
+  bottom:0px;
+  right:0px;
+  z-index:1;
+}
+
+.bar_right_top {
+  display:none;
+  height:62.5%;
+  width:20px;
+  right:0px;
+}
+.bar_right_bottom {
+  display:none;
+  height:37.5%;
+  width:20px;
+  right:0px;
+  bottom:0px;
+}
+
+.fade_to_blue {
+  background:#4592b7;
+  transition:background 0.5s;
+}
+.fade_to_light_blue {
+ /* background:#FFB158;*/
+  background:#6AAECF;
+  transition:background 0.5s;
+}
+.fade_to_dark_blue {
+  background:#346982;
+  transition:background 0.5s;
+}
+
+.hi {
+  position:relative;
+  opacity:0;
+  text-align:center;
+  
+  font-size:200px;
+}
+
+.pulser {
+  display:none;
+  z-index:10;
+  background-color:#940000;
+  width:20px;
+  height:20px;
+  position:absolute;
+  right:0px;
+  top:calc(62.5% - 20px);
+}
+
+.shitpage {
+  background-color:gray;
+  font-size:48px;
+  color:pink;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  position:absolute;
+  top:0px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  z-index:1;
+}
+
+ul {
+  list-style:none;
+  margin:0;
+  padding:0;
+  text-align:center;
+  color:
+}
+
+ul li img {
+ vertical-align:middle; 
+}
+ul li:hover {
+  opacity:0.8;
+  cursor:pointer;
+}
