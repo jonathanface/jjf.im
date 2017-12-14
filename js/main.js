@@ -1,5 +1,6 @@
 const EVENT_BAR_ANIMIN_COMPLETE = 'barsAnimatedIn';
 const EVENT_BAR_ANIMOUT_COMPLETE = 'barsAnimatedOut';
+const SAYHI_TIMEOUT = 3000;
 const CHEAT_MODE = false;
 
 function animateBarsIn() {
@@ -32,13 +33,11 @@ function pulse() {
 
 function sayHi() {
   var div = $('<div class="hi">Kidding.</div>');
-  $('main > content').append(div);
+  $('main > content').prepend(div);
   $(div).fadeTo('fast',0.8, function() {
     setTimeout(function() {
-      $(div).fadeOut('fast', function() {
-        $(div).remove();
-      });
-    }, 6000);
+      dissolve(div, true);
+    }, SAYHI_TIMEOUT);
   });
 }
 
@@ -58,6 +57,15 @@ function animateBarsOut() {
       $(window).trigger(EVENT_BAR_ANIMOUT_COMPLETE);
     });
   }, 1000);
+}
+
+function hoverCode(element) {
+  $(element).children('li').off('mouseenter mouseleave').hover(function() {
+    $(this).children('div').slideToggle('fast');
+  },
+  function() {
+    $(this).children('div').slideToggle('fast');
+  });
 }
 
 function setupRealPage() {
@@ -95,32 +103,61 @@ function setupRealPage() {
         width:'62.5%'
       }, 300);
       });
-      
       $(this).attr('data-expanded', false);
+    }
+  });
+  $('.menu_tree > div').click(function() {
+    if ($(this).find('.fa').hasClass('fa-angle-right')) {
+      $(this).find('.fa').removeClass('fa-angle-right');
+      $(this).find('.fa').addClass('fa-angle-down');
+      $(this).next('ul li').find('div').hide();
+      $(this).next('ul').fadeIn('fast', function() {
+        hoverCode(this);
+      });
+    } else {
+      $(this).find('.fa').removeClass('fa-angle-down');
+      $(this).find('.fa').addClass('fa-angle-right');
+      $(this).next('ul').fadeOut('fast');;
     }
   });
 }
 
+function dissolve(element, remove) {
+  $(element).addClass('dissolve');
+  if (remove) {
+    setTimeout(function() {
+      $(element).remove();
+    }, 500);
+  }
+}
+
+function materialize(element) {
+  $(element).addClass('fadeIn');
+}
+
 $(document).ready(function(event) {
+  $('main > content .bio').hide();
   $(window).on(EVENT_BAR_ANIMIN_COMPLETE, function() {
     setTimeout(function() {
       $('aside section:nth-child(1)').addClass('fade_to_light_blue');
+      materialize($('aside section:nth-child(1)').find('content'));
       $('.bar_right_bottom').slideToggle(1500, function() {
         pulse();
         setTimeout(function() {
           $('aside section:nth-child(2)').addClass('fade_to_dark_blue');
+          materialize($('aside section:nth-child(2)').find('content'));
         }, 500);
         setTimeout(function() {
-          setTimeout(function() {
-            $('main > content').css('z-index', 100);
-          }, 100);
           $('main > content').addClass('fade_to_blue');
           setTimeout(function() {
             $('.shitpage').remove();
             sayHi();
+            setTimeout(function() {
+              $('main > content .bio').fadeIn('fast');
+            }, 4000);
             setupRealPage();
           }, 3000);
-        }, 1000);
+        }, 500);
         setTimeout(animateBarsOut, 1500);
       });
     }, 500);
@@ -133,6 +170,9 @@ $(document).ready(function(event) {
     $('.shitpage').remove();
     $('aside section:nth-child(1)').addClass('fade_to_light_blue');
     $('aside section:nth-child(2)').addClass('fade_to_dark_blue');
+    materialize($('aside section:nth-child(1)').find('content'));
+    materialize($('aside section:nth-child(2)').find('content'));
+    $('main > content .bio').fadeIn('fast');
     $('main > content').addClass('fade_to_blue');
     sayHi();
     setupRealPage();

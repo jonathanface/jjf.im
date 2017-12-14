@@ -19,6 +19,7 @@ body {
   color:#FFF;
   letter-spacing: 1.1px;
   cursor:default;
+  font-size:18px;
 }
 
 a {
@@ -35,22 +36,27 @@ main > content {
   display:inline-block;
   height:100%;
   position:relative;
+  z-index:10;
 }
 aside {
   height:100%;
   width:37.5%;
   display:inline-block;
   vertical-align:top;
-  z-index:100;
+  z-index:10;
+  position:relative;
 }
 
 aside section {
   padding:20px;
-  z-index:200;
+  z-index:20;
 }
 aside section header {
-  font-size: 24px;
+  font-size: 1.4rem;;
   margin-bottom: 10px;
+}
+aside section content {
+  display:none;
 }
 aside section:nth-child(1) {
   position:relative;
@@ -64,6 +70,8 @@ aside section:nth-child(2) {
   height:37.5%;
   width:100%;
 }
+
+
 
 
 .red_bar {
@@ -141,10 +149,12 @@ aside section:nth-child(2) {
 
 ul {
   list-style:none;
-  margin:0;
   padding:0;
   text-align:center;
-  color:
+  margin: 0 auto;
+  text-align: left;
+  width: 50%;
+  line-height: 50px;
 }
 
 ul li img {
@@ -153,4 +163,83 @@ ul li img {
 ul li:hover {
   opacity:0.8;
   cursor:pointer;
+}
+
+.bio {
+  width: 75%;
+  margin: 0 auto;
+  height: 100%;
+  padding:10%;
+  padding-top: 25%;
+}
+
+.bio > p:nth-child(1) {
+  font-size:1.4rem;
+}
+
+.menu_tree {
+  margin-left:20px;
+  line-height:30px;
+  margin-top:-5px;
+}
+.menu_tree > div {
+  cursor:pointer;
+}
+
+.menu_tree > div:hover {
+  opacity:0.8;
+}
+.menu_tree > div .fa {
+
+  margin-right:5px;
+}
+.menu_tree ul {
+  width:auto;
+  margin-left:40px;
+  display:none;
+  margin-top:5px;
+  line-height:30px;
+  letter-spacing:normal;
+}
+.menu_tree ul:nth-of-type(3) {
+  font-size:0.9rem;
+  line-height:20px;
+}
+.menu_tree ul:nth-of-type(3) li {
+  font-size:0.8rem;
+}
+.menu_tree ul > li {
+  cursor:default;
+  font-size:1rem;
+}
+.menu_tree ul > li:hover {
+  opacity:1;
+}
+.menu_tree ul > li .indent {
+  margin-left:10px;
+}
+
+.menu_tree ul > li > div {
+  font-family:Courier;
+  font-size:0.8rem;
+  line-height:0.8rem;
+  white-space:nowrap;
+  margin-left:20px;
+  display:none;
+  opacity:0.8;
+}
+
+.fadeIn {
+  display:initial;
+  transform:scale(1.01);
+  opacity:0;
+  transition:opacity 0.3s ease-out, transform 0.3s ease-out;
+  opacity:1 !important;
+  transform:scale(1);
+}
+
+.dissolve {
+  transition:opacity 0.3s ease-out, transform 0.3s ease-out;
+  opacity:0 !important;
+  transform:scale(1.01);
 }
