@@ -10,17 +10,18 @@ html {
   padding:0;
 }
 body {
+  position:relative;
   margin:0;
   padding:0;
   background-color:#4592b7;
   width:100%;
-  min-height:100%;
+  height:100vh;
   font-family:Verdana, Tahoma, Geneva, sans-serif;
   color:#FFF;
   letter-spacing: 1.1px;
   cursor:default;
   font-size:18px;
-  
+  overflow-y:scroll;
 }
 
 a {
@@ -30,11 +31,12 @@ a {
 
 main {
   width:100%;
-  height:100%;
+  height:100vh;
   min-width:1024px;
   min-height:800px;
+  position:relative;
 }
-main > content {
+main > article {
   width:62.5%;
   display:inline-block;
   height:100%;
@@ -52,26 +54,37 @@ aside {
 
 aside section {
   padding:20px;
-
 }
+
+aside section .mask {
+  display:none;
+}
+
 aside section header {
-  font-size: 1.4rem;;
   margin-bottom: 10px;
 }
 
-aside section header > i {
+aside section header h2 {
+  font-size: 1.4rem;
+  font-weight:normal;
+  margin:0px;
+}
+
+aside section header i {
   cursor:pointer;
 }
-aside section header > i:hover {
+aside section header i:hover {
   opacity:0.8;
 }
 
-aside section content {
-  display:none;
+aside section article {
+  
 }
-aside section content a {
+aside section article a {
   white-space:nowrap;
   vertical-align:middle;
+  display:inline-block;
+  width:100%;
 }
 aside section:nth-child(1) {
   position:relative;
@@ -169,11 +182,22 @@ figure > figcaption {
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   position:absolute;
   top:0px;
+  bottom:0px;
   width: 100%;
-  height: 100%;
   text-align: center;
   z-index:1;
-  overflow-y:auto;
+}
+
+.shitpage .container {
+  position:relative;
+  height:auto;
+  background-color:gray;
+  
+}
+
+.shitpage p, .shitpage h2 {
+  margin:0;
+  padding:0;
 }
 
 .menu_tree ul, aside > section:nth-child(2) ul {
@@ -199,10 +223,12 @@ ul li:hover {
   margin: 0 auto;
   height: 100%;
   padding:10%;
+  display:none;
 }
 
-.bio > p:nth-child(1) {
+.bio > h2 {
   font-size:1.5rem;
+  font-weight:normal;
 }
 
 .menu_tree {
@@ -253,14 +279,7 @@ ul li:hover {
   opacity:0.8;
 }
 
-.fadeIn {
-  display:initial;
-  transform:scale(1.01);
-  opacity:0;
-  transition:opacity 0.3s ease-out, transform 0.3s ease-out;
-  opacity:1 !important;
-  transform:scale(1);
-}
+
 
 .dissolve {
   transition:opacity 0.3s ease-out, transform 0.3s ease-out;
@@ -302,22 +321,22 @@ ul li:hover {
   opacity:0.8;
 }
 
-.contact content {
+.contact section {
   display:block;
   padding:20px;
 }
-.contact content p {
+.contact section p {
   margin:0px;
   margin-bottom:5px;
 }
-.contact content h3 {
+.contact section h3 {
   margin-top:0px;
 }
-.contact content form {
+.contact section form {
   width:100%;
 }
 
-.contact content form textarea {
+.contact section form textarea {
   border:none;
   resize:none;
   width:100%;
@@ -332,7 +351,7 @@ ul li:hover {
   color:gray;
 }
 
-.contact content form input[type="email"] {
+.contact section form input[type="email"] {
   border:none;
   resize:none;
   width:100%;
@@ -346,7 +365,7 @@ ul li:hover {
   color:gray;
 }
 
-.contact content form input[type="submit"] {
+.contact section form input[type="submit"] {
   background-color: #6AAECF;
   border: none;
   color: #FFF;
@@ -356,7 +375,16 @@ ul li:hover {
   border: 1px solid #fff;
   outline:none;
 }
-.contact content form input[type="submit"]:hover {
+.contact section form input[type="submit"]:hover {
   cursor:pointer;
   opacity:0.8;
+}
+
+.fadeIn {
+  display:initial;
+  transform:scale(1.01);
+  opacity:0;
+  transition:opacity 4s ease-out, transform 4s ease-out;
+  opacity:1 !important;
+  transform:scale(1);
 }

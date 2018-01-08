@@ -1,10 +1,9 @@
 /* Tiny Carousel */
 #slider1 {
-    margin: 100px 0 0;
-    overflow: hidden;
-    position: relative;
-    padding: 0 50px 10px;
-
+  margin: 100px 0 0;
+  overflow: hidden;
+  position: relative;
+  padding: 0 50px 10px;
 }
 
 #slider1 .viewport {

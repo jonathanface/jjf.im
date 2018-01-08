@@ -1,6 +1,24 @@
 <!Doctype HTML>
 <html lang="en">
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27020062-5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-27020062-5');
+    </script>
+
+    <title>Full Stack Web Developer</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Professional site of full stack web developer Jonathan Face">
+    <meta name="keywords" content="freelance,developer,development,hire,jquery,HTML,CSS,XML,JavaScript">
+    <meta name="author" content="Jonathan Face">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="RcS96Ok0dZxBctm9TVRb-OzrVKxJY24dkIWANwnfYrg" />
+    
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="js/jquery.tinycarousel.min.js"></script>
     <script src="js/main.js"></script>
@@ -11,10 +29,9 @@
   </head>
   <body>
     <main>
-    
-      <content>
+      <article>
         <div class="bio">
-          <p>Jonathan Face</p>
+          <h2>Jonathan Face</h2>
           <p>Web Application Developer</p>
           <div class="menu_tree">
             <div data-isopen="false"><i class="fa fa-angle-right"></i>Languages</div>
@@ -68,77 +85,83 @@
         <div class="red_bar bar_right_top"></div>
         <div class="red_bar bar_right_bottom"></div>
         <div class="pulser"></div>
-      </content><!--
+      </article><!--
    --><aside>
         <section class="expandable" data-expanded="false">
-          <content>
-            <header>RECENT PROJECTS&nbsp;<i class="fa fa-undo"></i></header>
-            <div id="slider1">
-              <a class="buttons prev" href="#">&#60;</a>
-              <div class="viewport">
-                <ul class="overview">
-                  <li data-slide="1">
-                    <figure>
-                      <img title="click for more details" src="img/projects/clinportal1.png">
-                      <figcaption>Dictum Health, Inc - Clinician Portal</figcaption>
-                    </figure>
-                  </li>
-                  <li data-slide="2">
-                    <figure>
-                      <img title="click for more details" src="img/projects/questlog.png">
-                      <figcaption>QuestLog</figcaption>
-                    </figure>
-                  </li>
-                  <li data-slide="3">
-                    <figure>
-                      <img title="click for more details" src="img/projects/fish.png">
-                      <figcaption>1Point2.fish</figcaption>
-                    </figure>
-                  </li>
-                  <li data-slide="4">
-                    <figure>
-                      <img title="click for more details" src="img/projects/socknit.png">
-                      <figcaption>Socknit</figcaption>
-                    </figure>
-                  </li>
-                  <li data-slide="5">
-                    <figure>
-                      <img title="click for more details" src="img/projects/dictumhealth.png">
-                      <figcaption>Dictum Health, Inc - corporate website</figcaption>
-                    </figure>
-                  </li>
-                </ul>
+          <article>
+            <div class="mask">
+              <header><h2>RECENT PROJECTS&nbsp;<i class="fa fa-undo"></i></h2></header>
+              <div id="slider1">
+                <a class="buttons prev" href="#">&#60;</a>
+                <div class="viewport">
+                  <ul class="overview">
+                    <li data-slide="1">
+                      <figure>
+                        <img title="click for more details" src="img/projects/clinportal1.png">
+                        <figcaption>Dictum Health, Inc - Clinician Portal</figcaption>
+                      </figure>
+                    </li>
+                    <li data-slide="2">
+                      <figure>
+                        <img title="click for more details" src="img/projects/questlog.png">
+                        <figcaption>QuestLog</figcaption>
+                      </figure>
+                    </li>
+                    <li data-slide="3">
+                      <figure>
+                        <img title="click for more details" src="img/projects/fish.png">
+                        <figcaption>1Point2.fish</figcaption>
+                      </figure>
+                    </li>
+                    <li data-slide="4">
+                      <figure>
+                        <img title="click for more details" src="img/projects/socknit.png">
+                        <figcaption>Socknit</figcaption>
+                      </figure>
+                    </li>
+                    <li data-slide="5">
+                      <figure>
+                        <img title="click for more details" src="img/projects/dictumhealth.png">
+                        <figcaption>Dictum Health, Inc - corporate website</figcaption>
+                      </figure>
+                    </li>
+                  </ul>
+                </div>
+                <a class="buttons next" href="#">&#62;</a>
               </div>
-              <a class="buttons next" href="#">&#62;</a>
             </div>
-          </content>
+          </article>
           <div class="red_bar bar_bottom"></div>
         </section>
         <section style="height:37.5%;">
-          <content>
-            <header>ETC</header>
-            <ul>
-              <li><a href="http://www.github.com/jonathanface/" target="_blank"><img src="img/GitHub-Mark-Light-32px.png" alt="github" title="github">&nbsp;GitHub Repositories</a></li>
-              <li><a href="jface_resume.pdf" target="_blank"><img src="img/resume.png" alt="resume" title="resume">&nbsp;Resume</a></li>
-              <li><a id="contacter" href="#"><img src="img/phone.png" alt="contact" title="contact">&nbsp;Contact</a></li>
-            </ul>
-          </content>
+          <article>
+            <div class="mask">
+              <header><h2>ETC</h2></header>
+              <ul>
+                <li><a href="http://www.github.com/jonathanface/" target="_blank"><img src="img/GitHub-Mark-Light-32px.png" alt="github" title="github">&nbsp;GitHub</a></li>
+                <li><a href="jface_resume.pdf" target="_blank"><img src="img/resume.png" alt="resume" title="resume">&nbsp;Resume</a></li>
+                <li><a id="contacter" href="#"><img src="img/phone.png" alt="contact" title="contact">&nbsp;Contact</a></li>
+              </ul>
+            </div>
+          </article>
         </section>
       </aside>
       <div class="shitpage">
+        <div class="container">
           <h2>WELCOME TO MY WEB-SITE!!!!</h2>
           <p>
-            <img src="img/skullspn.gif">
-            <img src="img/skullspn.gif">
-            <img src="img/skullspn.gif">
-          </p>
+            <img src="img/skullspn.gif" alt="doom">
+            <img src="img/skullspn.gif" alt="gloom">
+            <img src="img/skullspn.gif" alt="tomb">
+          </p><br>
           <p>
-            <img src="img/hwg_logo_128x180.png">
-          </p>
+            <img src="img/hwg_logo_128x180.png" alt="github">
+          </p><br>
           <p>
-            <img src="img/Boysring.jpg">
+            <img src="img/Boysring.jpg" alt="bye bye bye">
           </p>
         </div>
+      </div>
     </main>
   </body>
 </html>

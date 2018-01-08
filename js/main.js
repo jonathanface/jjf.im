@@ -27,14 +27,14 @@ function pulse() {
     opacity:0
   }, 300, function() {
     $('.pulser').remove();
-    $('main > content').append('<div class="pulser"></div>');
+    $('main > article').append('<div class="pulser"></div>');
     
   });
 }
 
 function sayHi() {
   var div = $('<div class="hi">Kidding.</div>');
-  $('main > content').prepend(div);
+  $('main > article').prepend(div);
   $(div).fadeTo('fast',0.8, function() {
     setTimeout(function() {
       dissolve(div, true);
@@ -90,7 +90,7 @@ function loadProjectSection(number) {
   }
   $.get(url, function(template) {
     template = $(template);
-    $('.expandable content').append(template);
+    $('.expandable article').append(template);
    // $('.project').hide();
     if (number == 1) {
       var carousel = $(".carousel"),
@@ -126,11 +126,11 @@ function setupRealPage() {
     bullets:true,
     buttons:true
   });
-  $('.expandable header > i').hide();
-  $('.expandable header > i').click(function(event) {
+  $('.expandable header i').hide();
+  $('.expandable header i').click(function(event) {
     event.preventDefault();
     if ($('.expandable').attr('data-expanded') == 'true') {
-      $('.expandable header > i').fadeOut('fast');
+      $('.expandable header i').fadeOut('fast');
       dissolve($('.project')[0], true);
       $('.expandable').parent().children('section').show();
       $('.expandable').parent().children('section').eq(1).animate({
@@ -142,7 +142,7 @@ function setupRealPage() {
       $('.expandable').parent().animate({
         width:'37.5%'
       }, 300, function() {
-        $('main > content').animate({
+        $('main > article').animate({
           width:'62.5%'
         }, 300, function() {
           $('#slider1').fadeIn('fast');
@@ -159,7 +159,7 @@ function setupRealPage() {
         //car.destroy();
       });
       if ($('.expandable').attr('data-expanded') == 'false') {
-        $('main > content').animate({
+        $('main > article').animate({
           width:0
         }, 300);
         $('.expandable').parent().animate({
@@ -175,7 +175,7 @@ function setupRealPage() {
         $('.expandable').animate({
           height:'100%'
         }, 300, function() {
-          $('.expandable header > i').fadeIn('fast');
+          $('.expandable header i').fadeIn('fast');
           loadProjectSection(parseInt($(item).attr('data-slide')));
         });
         $('.expandable').attr('data-expanded', true);
@@ -221,7 +221,7 @@ function removeContactForm() {
 
 function successContactMessage() {
   $('.contact').find('form').remove();
-  $('.contact content').text('Thanks for the message.');
+  $('.contact > section').text('Thanks for the message.');
   setTimeout(removeContactForm, 3000);
 }
 
@@ -253,7 +253,7 @@ function renderContactForm() {
   $(bg).fadeTo('fast', 0.8, function() {
     var div = $('<div class="contact"></div>');
     $(div).append('<header><i class="fa fa-2x fa-times-circle-o"></i></header>');
-    var content = $('<content></content>');
+    var content = $('<section></section>');
     $(content).append('<p><h3>Drop me a line.</h3></p>');
     var form = $('<form method="post" action="php/sendmail.php"></form>');
     $(form).append('<p><input type="email" value="Your email address"></p>');
@@ -321,7 +321,6 @@ $(window).resize(function() {
 
 $(document).ready(function(event) {
   console.log('Why are you looking at my code?');
-  $('main > content .bio').hide();
   setupRealPage();
   $(window).on(EVENT_BAR_ANIMIN_COMPLETE, function() {
     setTimeout(function() {
@@ -334,16 +333,18 @@ $(document).ready(function(event) {
           
         }, 500);
         setTimeout(function() {
-          $('main > content').addClass('fade_to_blue');
+          $('main > article').addClass('fade_to_blue');
           
           setTimeout(function() {
-            
             $('.shitpage').remove();
             sayHi();
             setTimeout(function() {
-              materialize($('aside section:nth-child(1)').find('content'));
-              materialize($('aside section:nth-child(2)').find('content'));
-              $('main > content .bio').fadeIn('fast');
+              $('main > article .bio').fadeIn('fast', function() {
+                $('aside section .mask').eq(0).fadeIn('fast', function() {
+                  $('aside section .mask').eq(1).fadeIn('fast');
+                });
+              });
+              
             }, 4000);
             
           }, 3000);
@@ -360,10 +361,10 @@ $(document).ready(function(event) {
     $('.shitpage').remove();
     $('aside section:nth-child(1)').addClass('fade_to_light_blue');
     $('aside section:nth-child(2)').addClass('fade_to_dark_blue');
-    materialize($('aside section:nth-child(1)').find('content'));
-    materialize($('aside section:nth-child(2)').find('content'));
-    $('main > content .bio').fadeIn('fast');
-    $('main > content').addClass('fade_to_blue');
+    materialize($('aside section:nth-child(1)').find('article'));
+    materialize($('aside section:nth-child(2)').find('article'));
+    $('main > article .bio').fadeIn('fast');
+    $('main > article').addClass('fade_to_blue');
     setupRealPage();
   } else {
     setTimeout(function() {
