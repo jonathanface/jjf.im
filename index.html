@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="js/jquery.tinycarousel.min.js"></script>
     <script src="js/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/tinycarousel.css"/>
+    <link rel="stylesheet" type="text/css" href="css/project_details.css"/>
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link type="text/css" rel="stylesheet" href="css/main.css">
   </head>
@@ -14,17 +17,17 @@
           <p>Jonathan Face</p>
           <p>Web Application Developer</p>
           <div class="menu_tree">
-            <div><i class="fa fa-angle-right"></i>Languages</div>
+            <div data-isopen="false"><i class="fa fa-angle-right"></i>Languages</div>
             <ul>
               <li>JavaScript/jQuery <div>Class World() { constructor() {this.greeting = "hello";} }</div></li>
               <li>GoLANG <div>func main() { fmt.Println("hello world") }</div></li>
               <li>PHP <div>&lt;?php echo "hello world";?&gt;</div></li>
-              <li>SQL <div>SELECT text FROM greetings WHERE user="world" LIMIT 1;</div></li>
+              <li>SQL <div>SELECT hello FROM greetings WHERE user="world" LIMIT 1;</div></li>
               <li>HTML5 <div>&lt;!DOCTYPE html&gt;&lt;head&gt;&lt;title&gt;hello world&lt;/title&gt;&lt;/head&gt;&lt;/html&gt;</div></li>
               <li>CSS3 <div>html::before { content: "Hello, World!"}</div></li>
               <li>ActionScript 3<div>no one cares :(</div></li>
             </ul>
-            <div><i class="fa fa-angle-right"></i>Experience</div>
+            <div data-isopen="false"><i class="fa fa-angle-right"></i>Experience</div>
             <ul>
               <li>GIT / GERRIT / JIRA</li>
               <li>AWS/EC2 administration</li>
@@ -32,7 +35,7 @@
               <li>Some Python</li>
               <li>Some Java</li>
             </ul>
-            <div><i class="fa fa-angle-right"></i>Work History</div>
+            <div data-isopen="false"><i class="fa fa-angle-right"></i>Work History</div>
               <ul>
                 <li>
                   <b>Senior Web Application Developer</b>, 2013-present<br>
@@ -67,9 +70,47 @@
         <div class="pulser"></div>
       </content><!--
    --><aside>
-        <section class="expandable has-hover" data-expanded="false">
+        <section class="expandable" data-expanded="false">
           <content>
-            <header>PROJECTS</header>
+            <header>RECENT PROJECTS&nbsp;<i class="fa fa-undo"></i></header>
+            <div id="slider1">
+              <a class="buttons prev" href="#">&#60;</a>
+              <div class="viewport">
+                <ul class="overview">
+                  <li data-slide="1">
+                    <figure>
+                      <img title="click for more details" src="img/projects/clinportal1.png">
+                      <figcaption>Dictum Health, Inc - Clinician Portal</figcaption>
+                    </figure>
+                  </li>
+                  <li data-slide="2">
+                    <figure>
+                      <img title="click for more details" src="img/projects/questlog.png">
+                      <figcaption>QuestLog</figcaption>
+                    </figure>
+                  </li>
+                  <li data-slide="3">
+                    <figure>
+                      <img title="click for more details" src="img/projects/fish.png">
+                      <figcaption>1Point2.fish</figcaption>
+                    </figure>
+                  </li>
+                  <li data-slide="4">
+                    <figure>
+                      <img title="click for more details" src="img/projects/socknit.png">
+                      <figcaption>Socknit</figcaption>
+                    </figure>
+                  </li>
+                  <li data-slide="5">
+                    <figure>
+                      <img title="click for more details" src="img/projects/dictumhealth.png">
+                      <figcaption>Dictum Health, Inc - corporate website</figcaption>
+                    </figure>
+                  </li>
+                </ul>
+              </div>
+              <a class="buttons next" href="#">&#62;</a>
+            </div>
           </content>
           <div class="red_bar bar_bottom"></div>
         </section>
@@ -78,7 +119,8 @@
             <header>ETC</header>
             <ul>
               <li><a href="http://www.github.com/jonathanface/" target="_blank"><img src="img/GitHub-Mark-Light-32px.png" alt="github" title="github">&nbsp;GitHub Repositories</a></li>
-              <li><a href="http://www.github.com/jonathanface/" target="_blank"><img src="img/resume.png" alt="resume" title="resume">&nbsp;Resume</a></li>
+              <li><a href="jface_resume.pdf" target="_blank"><img src="img/resume.png" alt="resume" title="resume">&nbsp;Resume</a></li>
+              <li><a id="contacter" href="#"><img src="img/phone.png" alt="contact" title="contact">&nbsp;Contact</a></li>
             </ul>
           </content>
         </section>

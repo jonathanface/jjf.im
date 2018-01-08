@@ -20,6 +20,7 @@ body {
   letter-spacing: 1.1px;
   cursor:default;
   font-size:18px;
+  
 }
 
 a {
@@ -30,6 +31,8 @@ a {
 main {
   width:100%;
   height:100%;
+  min-width:1024px;
+  min-height:800px;
 }
 main > content {
   width:62.5%;
@@ -49,29 +52,53 @@ aside {
 
 aside section {
   padding:20px;
-  z-index:20;
+
 }
 aside section header {
   font-size: 1.4rem;;
   margin-bottom: 10px;
 }
+
+aside section header > i {
+  cursor:pointer;
+}
+aside section header > i:hover {
+  opacity:0.8;
+}
+
 aside section content {
   display:none;
+}
+aside section content a {
+  white-space:nowrap;
+  vertical-align:middle;
 }
 aside section:nth-child(1) {
   position:relative;
   height:62.5%;
 }
-aside section:nth-child(1).has-hover:hover {
-  cursor:pointer;
-  opacity:0.9;
-}
+
 aside section:nth-child(2) {
   height:37.5%;
   width:100%;
 }
 
+figure {
+  margin:0;
+  padding:0;
+  overflow:hidden;
+}
 
+figure > img {
+  border: 1px solid #dcdcdc;
+}
+
+figure > figcaption {
+  font-size: 1rem;
+  line-height: 1.2rem;
+  text-align: center;
+  padding: 10px;
+}
 
 
 .red_bar {
@@ -120,7 +147,8 @@ aside section:nth-child(2) {
   opacity:0;
   text-align:center;
   
-  font-size:200px;
+  font-size:100px;
+  margin-top:100px;
 }
 
 .pulser {
@@ -145,9 +173,10 @@ aside section:nth-child(2) {
   height: 100%;
   text-align: center;
   z-index:1;
+  overflow-y:auto;
 }
 
-ul {
+.menu_tree ul, aside > section:nth-child(2) ul {
   list-style:none;
   padding:0;
   text-align:center;
@@ -170,11 +199,10 @@ ul li:hover {
   margin: 0 auto;
   height: 100%;
   padding:10%;
-  padding-top: 25%;
 }
 
 .bio > p:nth-child(1) {
-  font-size:1.4rem;
+  font-size:1.5rem;
 }
 
 .menu_tree {
@@ -201,12 +229,9 @@ ul li:hover {
   line-height:30px;
   letter-spacing:normal;
 }
-.menu_tree ul:nth-of-type(3) {
-  font-size:0.9rem;
-  line-height:20px;
-}
+
 .menu_tree ul:nth-of-type(3) li {
-  font-size:0.8rem;
+  white-space:nowrap;
 }
 .menu_tree ul > li {
   cursor:default;
@@ -222,8 +247,7 @@ ul li:hover {
 .menu_tree ul > li > div {
   font-family:Courier;
   font-size:0.8rem;
-  line-height:0.8rem;
-  white-space:nowrap;
+  line-height:0.9rem;
   margin-left:20px;
   display:none;
   opacity:0.8;
@@ -242,4 +266,97 @@ ul li:hover {
   transition:opacity 0.3s ease-out, transform 0.3s ease-out;
   opacity:0 !important;
   transform:scale(1.01);
+}
+
+.contact_bg {
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  opacity:0;
+  background-color:#757575;
+  z-index:500;
+}
+
+.contact {
+  position:fixed;
+  width:500px;
+  height:550px;
+  background-color:#4592b7;
+  z-index:510;
+  top: calc(50% - 250px);
+  left: calc(50% - 250px);
+  box-shadow:5px 5px 5px #2b2b2b;
+  border-radius:15px;
+  display:none;
+}
+
+.contact header {
+  padding:10px;
+  text-align:right;
+}
+
+.contact header i:hover {
+  cursor:pointer;
+  opacity:0.8;
+}
+
+.contact content {
+  display:block;
+  padding:20px;
+}
+.contact content p {
+  margin:0px;
+  margin-bottom:5px;
+}
+.contact content h3 {
+  margin-top:0px;
+}
+.contact content form {
+  width:100%;
+}
+
+.contact content form textarea {
+  border:none;
+  resize:none;
+  width:100%;
+  height:300px;
+  border-radius:5px;
+  background-color:#f7f7f7;
+  padding: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  outline:none;
+  letter-spacing: 1px;
+  color:gray;
+}
+
+.contact content form input[type="email"] {
+  border:none;
+  resize:none;
+  width:100%;
+  outline:none;
+  border-radius:5px;
+  background-color:#f7f7f7;
+  padding: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  letter-spacing: 1px;
+  color:gray;
+}
+
+.contact content form input[type="submit"] {
+  background-color: #6AAECF;
+  border: none;
+  color: #FFF;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1rem;
+  border: 1px solid #fff;
+  outline:none;
+}
+.contact content form input[type="submit"]:hover {
+  cursor:pointer;
+  opacity:0.8;
 }

@@ -1,6 +1,7 @@
 const EVENT_BAR_ANIMIN_COMPLETE = 'barsAnimatedIn';
 const EVENT_BAR_ANIMOUT_COMPLETE = 'barsAnimatedOut';
 const SAYHI_TIMEOUT = 3000;
+const TEMPLATE_URL = 'templates/';
 const CHEAT_MODE = false;
 
 function animateBarsIn() {
@@ -68,46 +69,130 @@ function hoverCode(element) {
   });
 }
 
-function setupRealPage() {
-  $('.expandable').click(function() {
-    if ($(this).attr('data-expanded') == 'false') {
-      $(this).removeClass('has-hover');
-      $('main > content').animate({
-        width:0
-      }, 300);
-      $(this).parent().animate({
-        width:'100%'
-      }, 300, function() {
-        $('.hi').remove();
-      });
+function loadProjectSection(number) {
+  var url = TEMPLATE_URL;
+  switch(number) {
+    case 1:
+      url += 'clinicianportal.html';
+      break;
+    case 2:
+      url += 'questlog.html';
+      break;
+    case 3:
+      url += 'fish.html';
+      break;
+    case 4:
+      url += 'socknit.html';
+      break;
+    case 5:
+      url += 'dictumhealth.html';
+      break;
+  }
+  $.get(url, function(template) {
+    template = $(template);
+    $('.expandable content').append(template);
+   // $('.project').hide();
+    if (number == 1) {
+      var carousel = $(".carousel"),
+      currdeg  = 0;
 
-      $(this).parent().children('section').eq(1).animate({
-        height:0
-      }, 300);
-      $(this).animate({
-        height:'100%'
-      }, 300);
-      $(this).attr('data-expanded', true);
-    } else {
-       $(this).addClass('has-hover');
-      $(this).parent().children('section').eq(1).animate({
+      $(".project .controls .next").on("click", { d: "n" }, rotate);
+      $(".project .controls .prev").on("click", { d: "p" }, rotate);
+
+      function rotate(e){
+        if(e.data.d=="n"){
+          currdeg = currdeg - 60;
+        }
+        if(e.data.d=="p"){
+          currdeg = currdeg + 60;
+        }
+        carousel.css({
+          "-webkit-transform": "rotateY("+currdeg+"deg)",
+          "-moz-transform": "rotateY("+currdeg+"deg)",
+          "-o-transform": "rotateY("+currdeg+"deg)",
+          "transform": "rotateY("+currdeg+"deg)"
+        });
+      }
+    }
+    
+    $('.project').fadeTo('fast', 1, function() {
+      $(window).trigger('resize');
+    });
+  });
+}
+
+function setupRealPage() {
+  var car = $('#slider1').tinycarousel({
+    bullets:true,
+    buttons:true
+  });
+  $('.expandable header > i').hide();
+  $('.expandable header > i').click(function(event) {
+    event.preventDefault();
+    if ($('.expandable').attr('data-expanded') == 'true') {
+      $('.expandable header > i').fadeOut('fast');
+      dissolve($('.project')[0], true);
+      $('.expandable').parent().children('section').show();
+      $('.expandable').parent().children('section').eq(1).animate({
         height:'37.5%'
       }, 300);
-      $(this).animate({
+      $('.expandable').animate({
         height:'62.5%'
       }, 300);
-      $(this).parent().animate({
+      $('.expandable').parent().animate({
         width:'37.5%'
-      }, '300', function() {
-      $('main > content').animate({
-        width:'62.5%'
-      }, 300);
+      }, 300, function() {
+        $('main > content').animate({
+          width:'62.5%'
+        }, 300, function() {
+          $('#slider1').fadeIn('fast');
+          
+        });
       });
-      $(this).attr('data-expanded', false);
+      $('.expandable').attr('data-expanded', false);
     }
   });
+  $('#slider1 li').each(function(index, item) {
+    $(item).click(function(event) {
+      event.preventDefault();
+      $('#slider1').fadeOut('fast', function() {
+        //car.destroy();
+      });
+      if ($('.expandable').attr('data-expanded') == 'false') {
+        $('main > content').animate({
+          width:0
+        }, 300);
+        $('.expandable').parent().animate({
+          width:'100%'
+        }, 300, function() {
+          $('.hi').remove();
+        });
+        $('.expandable').parent().children('section').eq(1).animate({
+          height:0
+        }, 300, function() {
+          $(this).hide();
+        });
+        $('.expandable').animate({
+          height:'100%'
+        }, 300, function() {
+          $('.expandable header > i').fadeIn('fast');
+          loadProjectSection(parseInt($(item).attr('data-slide')));
+        });
+        $('.expandable').attr('data-expanded', true);
+      }
+      
+    });
+  });
   $('.menu_tree > div').click(function() {
+    var clicked = this;
+    $('.menu_tree > div').each(function(index, item) {
+      if ($(item).attr('data-isopen') == 'true' && item != clicked) {
+        $(item).attr('data-isopen', false);
+        $(item).trigger('click');
+      }
+    });
     if ($(this).find('.fa').hasClass('fa-angle-right')) {
+      $(this).attr('data-isopen', true);
       $(this).find('.fa').removeClass('fa-angle-right');
       $(this).find('.fa').addClass('fa-angle-down');
       $(this).next('ul li').find('div').hide();
@@ -115,11 +200,104 @@ function setupRealPage() {
         hoverCode(this);
       });
     } else {
+      $(this).attr('data-isopen', false);
       $(this).find('.fa').removeClass('fa-angle-down');
       $(this).find('.fa').addClass('fa-angle-right');
-      $(this).next('ul').fadeOut('fast');;
+      $(this).next('ul').hide();
     }
   });
+  
+  $('#contacter').click(function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    renderContactForm();
+  });
+}
+
+function removeContactForm() {
+  dissolve($('.contact'), true);
+  dissolve($('.contact_bg'), true);
+}
+
+function successContactMessage() {
+  $('.contact').find('form').remove();
+  $('.contact content').text('Thanks for the message.');
+  setTimeout(removeContactForm, 3000);
+}
+
+function sendMail() {
+  if ($.trim($('.contact').find('textarea').val()).length && $.trim($('.contact').find('input[type="email"]').val()).length) {
+    if ($.trim($('.contact').find('textarea').val()) != 'Your message' && $.trim($('.contact').find('input[type="email"]').val()) != 'Your email address') {
+      var data = {email: $.trim($('.contact').find('input[type="email"]').val()), message: $.trim($('.contact').find('textarea').val())};
+      $.ajax({
+        type: 'POST',
+        url: 'php/send_email.php',
+        data: data,
+        success: function() {
+          successContactMessage();
+        },
+        error: function() {
+          successContactMessage();
+        }
+      });
+    }
+  }
+}
+
+function renderContactForm() {
+  var bg = $('<div class="contact_bg"></div>');
+  $(document.body).append(bg);
+  $(bg).click(function() {
+    removeContactForm();
+  });
+  $(bg).fadeTo('fast', 0.8, function() {
+    var div = $('<div class="contact"></div>');
+    $(div).append('<header><i class="fa fa-2x fa-times-circle-o"></i></header>');
+    var content = $('<content></content>');
+    $(content).append('<p><h3>Drop me a line.</h3></p>');
+    var form = $('<form method="post" action="php/sendmail.php"></form>');
+    $(form).append('<p><input type="email" value="Your email address"></p>');
+    $(form).find('input[type="email"]').focusin(function() {
+      if ($.trim($(this).val()) == 'Your email address') {
+        $(this).val('');
+        $(this).css('color', '#000');
+      }
+    });
+    $(form).find('input[type="email"]').focusout(function() {
+      if ($.trim($(this).val()) == '') {
+        $(this).val('Your email address');
+        $(this).css('color', 'gray');
+      }
+    });
+    $(form).append('<p><textarea>Your message</textarea></p>');
+    $(form).find('textarea').focusin(function() {
+      if ($.trim($(this).val()) == 'Your message') {
+        $(this).val('');
+        $(this).css('color', '#000');
+      }
+    });
+    $(form).find('textarea').focusout(function() {
+      if ($.trim($(this).val()) == '') {
+        $(this).val('Your message');
+        $(this).css('color', 'gray');
+      }
+    });
+    
+    $(form).append('<p style="text-align:right;"><input type="submit" value="send"></p>');
+    $(content).append(form);
+    $(div).append(content);
+    $(form).on('submit', function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      sendMail();
+    });
+    $(div).find('header i').click(function() {
+      removeContactForm();
+    });
+    $(document.body).append(div);
+    $(div).fadeIn('fast');
+  });
+  
 }
 
 function dissolve(element, remove) {
@@ -135,27 +313,39 @@ function materialize(element) {
   $(element).addClass('fadeIn');
 }
 
+$(window).resize(function() {
+  if ($('.expandable').attr('data-expanded') == 'true') {
+    $('.expandable').css('height', document.body.scrollHeight);
+  }
+});
+
 $(document).ready(function(event) {
+  console.log('Why are you looking at my code?');
   $('main > content .bio').hide();
+  setupRealPage();
   $(window).on(EVENT_BAR_ANIMIN_COMPLETE, function() {
     setTimeout(function() {
       $('aside section:nth-child(1)').addClass('fade_to_light_blue');
-      materialize($('aside section:nth-child(1)').find('content'));
+      
       $('.bar_right_bottom').slideToggle(1500, function() {
         pulse();
         setTimeout(function() {
           $('aside section:nth-child(2)').addClass('fade_to_dark_blue');
-          materialize($('aside section:nth-child(2)').find('content'));
+          
         }, 500);
         setTimeout(function() {
           $('main > content').addClass('fade_to_blue');
+          
           setTimeout(function() {
+            
             $('.shitpage').remove();
             sayHi();
             setTimeout(function() {
+              materialize($('aside section:nth-child(1)').find('content'));
+              materialize($('aside section:nth-child(2)').find('content'));
               $('main > content .bio').fadeIn('fast');
             }, 4000);
-            setupRealPage();
+            
           }, 3000);
         }, 500);
         setTimeout(animateBarsOut, 1500);
@@ -174,7 +364,6 @@ $(document).ready(function(event) {
     materialize($('aside section:nth-child(2)').find('content'));
     $('main > content .bio').fadeIn('fast');
     $('main > content').addClass('fade_to_blue');
-    sayHi();
     setupRealPage();
   } else {
     setTimeout(function() {

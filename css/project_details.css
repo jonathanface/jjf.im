@@ -1,0 +1,126 @@
+.project {
+  margin-top:40px;
+  opacity:0;
+}
+
+.visuals {
+  margin: 0 auto;
+  width: 250px;
+  height: 200px;
+  position: relative;
+  perspective: 1000px;
+  display:flex;
+}
+
+
+.carousel {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+
+.item {
+  display: block;
+  position: absolute;
+  width: 250px;
+  height: 200px;
+  line-height: 200px;
+  font-size: 5em;
+  text-align: center;
+  color: #FFF;
+  opacity: 0.95;
+  border-radius: 10px;
+}
+
+.item img {
+  width:100%;
+}
+
+.carousel .a {
+  transform: rotateY(0deg) translateZ(250px);
+}
+.carousel .b {
+  transform: rotateY(60deg) translateZ(250px);
+}
+.carousel .c {
+  transform: rotateY(120deg) translateZ(250px);
+}
+.carousel .d {
+  transform: rotateY(180deg) translateZ(250px);
+}
+.carousel .e {
+  transform: rotateY(240deg) translateZ(250px);
+} 
+.carousel .f {
+  transform: rotateY(300deg) translateZ(250px);
+}
+
+.visuals .controls {
+  position:absolute;
+  top:175px;
+  width:100%;
+  text-align:center;
+}
+.visuals .next, .visuals .prev {
+  display:inline;
+  cursor: pointer;
+  transition: box-shadow 0.1s, top 0.1s;
+}
+.visuals .next:hover, .visuals .prev:hover { opacity:0.8 }
+
+.project .details {
+  text-align:center;
+}
+
+.project .text {
+  width:600px;
+  margin:0 auto;
+  text-align:left;
+  white-space:nowrap;
+  font-size:1rem;
+}
+.project .text > div {
+  padding-top:10px;
+}
+.project .text label {
+  display:inline-block;
+  width:30%;
+  text-align:right;
+  
+}
+.project .text p {
+  margin-top:0px;
+}
+.project .text a {
+  color:#FFF;
+  text-decoration:underline;
+  
+}
+.project .text a:hover {
+  opacity:0.8;
+}
+.project .text span {
+  display:inline-block;
+  width:70%;
+  color:#efebeb;
+  word-wrap:break-word;
+  white-space:normal;
+  vertical-align:top;
+  line-height:1.4rem;
+}
+
+.project .screenshot {
+  max-width: 600px;
+  margin: 0 auto;
+  border: 2px solid #FFF;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 0px;
+}
+
+.project .screenshot img {
+  vertical-align:middle;
+  width:100%;
+}
