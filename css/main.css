@@ -93,6 +93,9 @@ aside section article a {
   display:inline-block;
   width:100%;
 }
+aside section article ul a:hover {
+  opacity:0.8;
+}
 aside section article a img {
   vertical-align:middle;
 }
@@ -238,6 +241,7 @@ figure > figcaption {
   height: 100%;
   padding:10%;
   display:none;
+  text-shadow:1px 1px #676767;
 }
 
 .bio > h2 {
@@ -258,24 +262,29 @@ figure > figcaption {
   opacity:0.8;
 }
 .menu_tree > div .fa {
-
+  min-width:15px;
   margin-right:5px;
 }
 .menu_tree ul {
   width:auto;
   margin-left:40px;
   display:none;
-  margin-top:5px;
   line-height:30px;
   letter-spacing:normal;
 }
 
 .menu_tree ul:nth-of-type(3) li {
   white-space:nowrap;
+  font-size:0.825rem;
+  line-height:1.5rem;
+  margin-bottom:10px;
 }
 .menu_tree ul > li {
   cursor:default;
+}
+.menu_tree ul > li b {
   font-size:1rem;
+  font-weight:normal;
 }
 .menu_tree ul > li:hover {
   opacity:1;
