@@ -326,38 +326,33 @@ $(window).resize(function() {
 
 $(document).ready(function(event) {
   console.log('Why are you looking at my code?');
-  
-  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-    window.location = 'https://jjf.im/obile';
-  }
 
   $(window).on(EVENT_BAR_ANIMIN_COMPLETE, function() {
     setTimeout(function() {
-      $('aside section:nth-child(1)').addClass('fade_to_light_blue');
+      $('main > section:nth-child(1)').addClass('fade_to_light_blue');
       
       $('.bar_right_bottom').slideToggle(1500, function() {
-        pulse();
+        //pulse();
         setTimeout(function() {
-          $('aside section:nth-child(2)').addClass('fade_to_dark_blue');
+          $('main > section:nth-child(2)').addClass('fade_to_dark_blue');
           
         }, 500);
         setTimeout(function() {
           $('main > article').addClass('fade_to_blue');
-          
           setTimeout(function() {
             $('.shitpage').remove();
             sayHi();
             setTimeout(function() {
               $('main > article .bio').fadeIn('fast', function() {
-                $('aside section .mask').eq(0).fadeIn('fast', function() {
-                  $('aside section .mask').eq(1).fadeIn('fast');
+                $('main > section .mask').eq(0).fadeIn('fast', function() {
+                  $('main > section .mask').eq(1).fadeIn('fast');
                   setupRealPage();
                 });
               });
               
             }, 4000);
             
-          }, 3000);
+          }, 1000);
         }, 500);
         setTimeout(animateBarsOut, 1500);
       });

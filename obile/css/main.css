@@ -32,80 +32,65 @@ a {
 main {
   width:100%;
   height:100vh;
-  min-width:1024px;
-  min-height:800px;
   position:relative;
 }
 main > article {
-  width:62.5%;
+  width:100%;
   display:inline-block;
   height:100%;
   position:relative;
   z-index:10;
-}
-aside {
-  height:100%;
-  width:37.5%;
-  display:inline-block;
-  vertical-align:top;
-  z-index:10;
-  position:relative;
 }
 
-aside section {
+main > section {
   padding:20px;
 }
 
-aside section .mask {
+main > section .mask {
   display:none;
 }
 
-aside section header {
+main > section header {
   margin-bottom: 10px;
 }
 
-aside section header h2 {
+main > section header h2 {
   font-size: 1.4rem;
   font-weight:normal;
   margin:0px;
 }
-aside section header h3 {
+main > section header h3 {
   font-size: 0.87125rem;
   font-weight: normal;
   opacity: 0.8;
   margin: 0px;
   padding: 0px;
 }
-aside section header i {
+main > section header i {
   cursor:pointer;
   margin-right:10px;
 }
-aside section header i:hover {
+main > section header i:hover {
   opacity:0.8;
 }
 
-aside section article {
-  
-}
-aside section article a {
+main > section article a {
   white-space:nowrap;
   vertical-align:middle;
   display:inline-block;
   width:100%;
 }
-aside section article ul a:hover {
+main > section article ul a:hover {
   opacity:0.8;
 }
-aside section article a img {
+main > section article a img {
   vertical-align:middle;
 }
-aside section:nth-child(1) {
+main > section:nth-child(1) {
   position:relative;
-  height:62.5%;
 }
 
-aside section:nth-child(2) {
-  height:37.5%;
+main > section:nth-child(2) {
   width:100%;
 }
 
@@ -135,22 +120,23 @@ figure > figcaption {
 .bar_bottom {
   height:20px;
   width:0px;
-  bottom:0px;
+  bottom:50%;
   right:0px;
   z-index:1;
 }
 
 .bar_right_top {
   display:none;
-  height:62.5%;
+  height:50%;
   width:20px;
-  right:0px;
+  right:50%;
+  top:0;
 }
 .bar_right_bottom {
   display:none;
-  height:37.5%;
+  height:50%;
   width:20px;
-  right:0px;
+  right:50%;
   bottom:0px;
 }
 
@@ -183,13 +169,13 @@ figure > figcaption {
   width:20px;
   height:20px;
   position:absolute;
-  right:0px;
-  top:calc(62.5% - 20px);
+  right:50%;
+  top:calc(50% - 20px);
 }
 
 .shitpage {
   background-color:gray;
-  font-size:48px;
+  font-size:24px;
   color:pink;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   position:absolute;
@@ -274,7 +260,6 @@ figure > figcaption {
 }
 
 .menu_tree ul:nth-of-type(3) li {
-  white-space:nowrap;
   font-size:0.825rem;
   line-height:1.5rem;
   margin-bottom:10px;
