@@ -69,9 +69,16 @@ aside section header h2 {
   font-weight:normal;
   margin:0px;
 }
-
+aside section header h3 {
+  font-size: 0.87125rem;
+  font-weight: normal;
+  opacity: 0.8;
+  margin: 0px;
+  padding: 0px;
+}
 aside section header i {
   cursor:pointer;
+  margin-right:10px;
 }
 aside section header i:hover {
   opacity:0.8;
@@ -85,6 +92,9 @@ aside section article a {
   vertical-align:middle;
   display:inline-block;
   width:100%;
+}
+aside section article a img {
+  vertical-align:middle;
 }
 aside section:nth-child(1) {
   position:relative;
@@ -159,7 +169,6 @@ figure > figcaption {
   position:relative;
   opacity:0;
   text-align:center;
-  
   font-size:100px;
   margin-top:100px;
 }
@@ -210,10 +219,15 @@ figure > figcaption {
   line-height: 50px;
 }
 
-ul li img {
- vertical-align:middle; 
+.slick-slide {
+  min-width:200px;
 }
-ul li:hover {
+
+.slick-slide img {
+ vertical-align:middle;
+ max-height: 200px;
+}
+.slick-slide img:hover {
   opacity:0.8;
   cursor:pointer;
 }
@@ -388,3 +402,77 @@ ul li:hover {
   opacity:1 !important;
   transform:scale(1);
 }
+
+.slider {
+	 /*Same as width of the large image*/
+	position: relative;
+	/*Instead of height we will use padding*/
+	/*That helps bring the labels down*/
+	padding-top:350px;
+	margin: 0 auto;
+	
+	/*Lets add a shadow*/
+	
+}
+
+
+/*Last thing remaining is to add transitions*/
+.slider>img{
+	position: absolute;
+	left: 0; top: 0;
+	transition: all 0.5s;
+  max-width:100%;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.75);
+  cursor:pointer;
+}
+.slider>img:hover {
+  opacity:0.8;
+}
+
+.slider input[name='slide_switch'] {
+	display: none;
+}
+
+.slider label {
+  display:none;
+	/*Lets add some spacing for the thumbnails*/
+	margin: 18px 0 0 18px;
+	border: 3px solid #999;
+	
+	float: left;
+	cursor: pointer;
+	transition: all 0.5s;
+	
+	/*Default style = low opacity*/
+	opacity: 0.6;
+}
+
+.slider label img{
+	display: block;
+}
+
+/*Time to add the click effects*/
+.slider input[name='slide_switch']:checked+label {
+	border-color: #666;
+	opacity: 1;
+  visibility:visible;
+}
+/*Clicking any thumbnail now should change its opacity(style)*/
+/*Time to work on the main images*/
+.slider input[name='slide_switch'] ~ img {
+	visibility:hidden;
+  opacity:0;
+	transform: scale(1.1);
+  
+}
+/*That hides all main images at a 110% size
+On click the images will be displayed at normal size to complete the effect
+*/
+.slider input[name='slide_switch']:checked+label+img {
+	visibility:visible;
+  opacity:1;
+	transform: scale(1);
+}
+/*Clicking on any thumbnail now should activate the image related to it*/
+
+/*We are done :)*/

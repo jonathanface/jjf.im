@@ -122,40 +122,14 @@ function loadProjectSection(number) {
 }
 
 function setupRealPage() {
-  var car = $('#slider1').tinycarousel({
-    bullets:true,
-    buttons:true
-  });
+  $('.slider').css('padding-top', $('.slider > img')[0].height);
+  $('.slider label').fadeIn('fast');
   $('.expandable header i').hide();
-  $('.expandable header i').click(function(event) {
-    event.preventDefault();
-    if ($('.expandable').attr('data-expanded') == 'true') {
-      $('.expandable header i').fadeOut('fast');
-      dissolve($('.project')[0], true);
-      $('.expandable').parent().children('section').show();
-      $('.expandable').parent().children('section').eq(1).animate({
-        height:'37.5%'
-      }, 300);
-      $('.expandable').animate({
-        height:'62.5%'
-      }, 300);
-      $('.expandable').parent().animate({
-        width:'37.5%'
-      }, 300, function() {
-        $('main > article').animate({
-          width:'62.5%'
-        }, 300, function() {
-          $('#slider1').fadeIn('fast');
-          
-        });
-      });
-      $('.expandable').attr('data-expanded', false);
-    }
-  });
-  $('#slider1 li').each(function(index, item) {
+
+  $('.slider > img').each(function(index, item) {
     $(item).click(function(event) {
       event.preventDefault();
-      $('#slider1').fadeOut('fast', function() {
+      $('.slider').fadeOut('fast', function() {
         //car.destroy();
       });
       if ($('.expandable').attr('data-expanded') == 'false') {
@@ -175,7 +149,37 @@ function setupRealPage() {
         $('.expandable').animate({
           height:'100%'
         }, 300, function() {
-          $('.expandable header i').fadeIn('fast');
+          $('.expandable header h3').html('<i class="fa fa-undo fa-lg"></i>Return');
+          $('.expandable header h3').off('click').click(function(event) {
+            event.preventDefault();
+            if ($('.expandable').attr('data-expanded') == 'true') {
+              $('.expandable header i').fadeOut('fast');
+              $('.expandable header h3').text('Click a project for details');
+              dissolve($('.project')[0], true);
+              $('.expandable').parent().children('section').show();
+              $('.expandable').parent().children('section').eq(1).animate({
+                height:'37.5%'
+              }, 300);
+              $('.expandable').animate({
+                height:'62.5%'
+              }, 300);
+              $('.expandable').parent().animate({
+                width:'37.5%'
+              }, 300, function() {
+                $('main > article').animate({
+                  width:'62.5%'
+                }, 300, function() {
+                  $('.slider > label').hide();
+                  $('.slider').fadeIn('fast', function() {
+                    $('.slider').css('padding-top', $('.slider > img')[0].height);
+                    $('.slider > label').fadeIn('fast');
+                  });
+                  
+                });
+              });
+              $('.expandable').attr('data-expanded', false);
+            }
+          });
           loadProjectSection(parseInt($(item).attr('data-slide')));
         });
         $('.expandable').attr('data-expanded', true);
@@ -317,11 +321,12 @@ $(window).resize(function() {
   if ($('.expandable').attr('data-expanded') == 'true') {
     $('.expandable').css('height', document.body.scrollHeight);
   }
+  $('.slider').css('padding-top', $('.slider > img')[0].height);
 });
 
 $(document).ready(function(event) {
   console.log('Why are you looking at my code?');
-  setupRealPage();
+
   $(window).on(EVENT_BAR_ANIMIN_COMPLETE, function() {
     setTimeout(function() {
       $('aside section:nth-child(1)').addClass('fade_to_light_blue');
@@ -342,6 +347,7 @@ $(document).ready(function(event) {
               $('main > article .bio').fadeIn('fast', function() {
                 $('aside section .mask').eq(0).fadeIn('fast', function() {
                   $('aside section .mask').eq(1).fadeIn('fast');
+                  setupRealPage();
                 });
               });
               

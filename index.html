@@ -20,9 +20,8 @@
     <meta name="google-site-verification" content="RcS96Ok0dZxBctm9TVRb-OzrVKxJY24dkIWANwnfYrg" />
     
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="js/jquery.tinycarousel.min.js"></script>
     <script src="js/main.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/tinycarousel.css"/>
+
     <link rel="stylesheet" type="text/css" href="css/project_details.css"/>
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link type="text/css" rel="stylesheet" href="css/main.css">
@@ -32,7 +31,7 @@
       <article>
         <div class="bio">
           <h2>Jonathan Face</h2>
-          <p>Web Application Developer</p>
+          <p>Full Stack Web Developer experienced in building secure, RESTful web applications with an emphasis on jQuery, PHP, GoLang, and cloud deployment.</p>
           <div class="menu_tree">
             <div data-isopen="false"><i class="fa fa-angle-right"></i>Languages</div>
             <ul>
@@ -48,7 +47,8 @@
             <ul>
               <li>GIT / GERRIT / JIRA</li>
               <li>AWS/EC2 administration</li>
-              <li>webRTC video conferencing</li>
+              <li>WebRTC video conferencing</li>
+              <li>Photoshop</li>
               <li>Some Python</li>
               <li>Some Java</li>
             </ul>
@@ -90,44 +90,38 @@
         <section class="expandable" data-expanded="false">
           <article>
             <div class="mask">
-              <header><h2>RECENT PROJECTS&nbsp;<i class="fa fa-undo"></i></h2></header>
-              <div id="slider1">
-                <a class="buttons prev" href="#">&#60;</a>
-                <div class="viewport">
-                  <ul class="overview">
-                    <li data-slide="1">
-                      <figure>
-                        <img title="click for more details" src="img/projects/clinportal1.png">
-                        <figcaption>Dictum Health, Inc - Clinician Portal</figcaption>
-                      </figure>
-                    </li>
-                    <li data-slide="2">
-                      <figure>
-                        <img title="click for more details" src="img/projects/questlog.png">
-                        <figcaption>QuestLog</figcaption>
-                      </figure>
-                    </li>
-                    <li data-slide="3">
-                      <figure>
-                        <img title="click for more details" src="img/projects/fish.png">
-                        <figcaption>1Point2.fish</figcaption>
-                      </figure>
-                    </li>
-                    <li data-slide="4">
-                      <figure>
-                        <img title="click for more details" src="img/projects/socknit.png">
-                        <figcaption>Socknit</figcaption>
-                      </figure>
-                    </li>
-                    <li data-slide="5">
-                      <figure>
-                        <img title="click for more details" src="img/projects/dictumhealth.png">
-                        <figcaption>Dictum Health, Inc - corporate website</figcaption>
-                      </figure>
-                    </li>
-                  </ul>
-                </div>
-                <a class="buttons next" href="#">&#62;</a>
+              <header><h2>RECENT PROJECTS</h2>
+              <h3><i class="fa fa-undo fa-lg"></i>Click a project for details</h3>
+              </header>
+              <div class="slider">
+                <input type="radio" name="slide_switch" checked="checked" id="id1"/>
+                <label for="id1">
+                  <img alt="thumbnail" src="img/projects/clinportal1.png" width="50"/>
+                </label>
+                <img alt="Dictum Health Clinician Portal" title="Dictum Health Clinician Portal" data-slide="1" src="img/projects/clinportal1.png"/>
+                <input type="radio" name="slide_switch" id="id2"/>
+                <label for="id2">
+                  <img alt="thumbnail" src="img/projects/questlog.png" width="50"/>
+                </label>
+                <img alt="Questlog" title="Questlog" data-slide="2" src="img/projects/questlog.png"/>
+                
+                <input type="radio" name="slide_switch" id="id3"/>
+                <label for="id3">
+                  <img alt="thumbnail" src="img/projects/fish.png" width="50"/>
+                </label>
+                <img alt="1Point2Fish" title="1Point2Fish" data-slide="3"  src="img/projects/fish.png"/>
+                
+                <input type="radio" name="slide_switch" id="id4"/>
+                <label for="id4">
+                  <img alt="thumbnail" src="img/projects/socknit.png" width="50"/>
+                </label>
+                <img alt="Socknit" title="Socknit" data-slide="4" src="img/projects/socknit.png"/>
+                
+                <input type="radio" name="slide_switch" id="id5"/>
+                <label for="id5">
+                  <img alt="thumbnail" src="img/projects/dictumhealth.png" width="50"/>
+                </label>
+                <img alt="Dictum Health Corporate Website" title="Dictum Health Corporate Website" data-slide="5" src="img/projects/dictumhealth.png"/>
               </div>
             </div>
           </article>
