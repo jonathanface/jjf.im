@@ -36,6 +36,7 @@
 
 .item img {
   width:100%;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.75);
 }
 
 .carousel .a {
@@ -115,10 +116,10 @@
 .project .screenshot {
   max-width: 600px;
   margin: 0 auto;
-  border: 2px solid #FFF;
   border-radius: 5px;
   overflow: hidden;
   padding: 0px;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.75);
 }
 
 .project .screenshot img {
