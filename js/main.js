@@ -328,8 +328,10 @@ $(document).ready(function(event) {
   console.log('Why are you looking at my code?');
   
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-    window.location = 'https://jjf.im/obile';
+    window.location = 'https://jjf.im/mobile';
+    return;
   }
+  $('.shitpage').show();
 
   $(window).on(EVENT_BAR_ANIMIN_COMPLETE, function() {
     setTimeout(function() {

@@ -44,6 +44,7 @@ main > article {
 
 main > section {
   padding:20px;
+  position:relative;
 }
 
 main > section .mask {
@@ -75,7 +76,6 @@ main > section header i:hover {
 }
 
 main > section article a {
-  white-space:nowrap;
   vertical-align:middle;
   display:inline-block;
   width:100%;
@@ -111,35 +111,6 @@ figure > figcaption {
   padding: 10px;
 }
 
-
-.red_bar {
-  background-color:#940000;
-  position:absolute;
-  z-index:101;
-}
-.bar_bottom {
-  height:20px;
-  width:0px;
-  bottom:50%;
-  right:0px;
-  z-index:1;
-}
-
-.bar_right_top {
-  display:none;
-  height:50%;
-  width:20px;
-  right:50%;
-  top:0;
-}
-.bar_right_bottom {
-  display:none;
-  height:50%;
-  width:20px;
-  right:50%;
-  bottom:0px;
-}
-
 .fade_to_blue {
   background:#4592b7;
   transition:background 0.5s;
@@ -158,19 +129,8 @@ figure > figcaption {
   position:relative;
   opacity:0;
   text-align:center;
-  font-size:100px;
+  font-size:75px;
   margin-top:100px;
-}
-
-.pulser {
-  display:none;
-  z-index:10;
-  background-color:#940000;
-  width:20px;
-  height:20px;
-  position:absolute;
-  right:50%;
-  top:calc(50% - 20px);
 }
 
 .shitpage {
@@ -188,9 +148,94 @@ figure > figcaption {
 
 .shitpage .container {
   position:relative;
-  height:auto;
+  height:100%;
   background-color:gray;
-  
+}
+
+.shitpage .divider {
+  position:absolute;
+  width:50%;
+  height:50%;
+}
+.shitpage .divider:nth-child(1) {
+  left:0px;
+  top:0px;
+}
+.shitpage .divider:nth-child(2) {
+  left:50%;
+  top:0px;
+}
+.shitpage .divider:nth-child(3) {
+  top:50%;
+  left:0px;
+}
+.shitpage .divider:nth-child(4) {
+  left:50%;
+  top:50%;
+}
+
+.shitpage .divider .red_bar {
+  background-color:#940000;
+  position:absolute;
+  z-index:101;
+
+}
+.shitpage .divider:nth-child(1) .red_bar.right {
+  width:10px;
+  height:0%;
+  right:0px;
+}
+.shitpage .divider:nth-child(3) .red_bar.right {
+  width:10px;
+  height:0%;
+  right:0px;
+  bottom:0px;
+}
+.shitpage .divider:nth-child(2) .red_bar.left {
+  width:10px;
+  height:0%;
+  left:0px;
+}
+.shitpage .divider:nth-child(4) .red_bar.left {
+  width:10px;
+  height:0%;
+  left:0px;
+  bottom:0px;
+}
+.shitpage .divider:nth-child(1) .red_bar.bottom {
+  height:10px;
+  width:0%;
+  left:0px;
+  bottom:0px;
+}
+.shitpage .divider:nth-child(2) .red_bar.bottom {
+  height:10px;
+  width:0%;
+  right:0px;
+  bottom:0px;
+}
+.shitpage .divider:nth-child(3) .red_bar.top {
+  height:10px;
+  width:0%;
+  left:0px;
+  top:0px;
+}
+.shitpage .divider:nth-child(4) .red_bar.top {
+  height:10px;
+  width:0%;
+  right:0px;
+  top:0px;
+}
+
+.pulser {
+  display:none;
+  z-index:10;
+  background-color:#940000;
+  width:20px;
+  height:20px;
+  position:absolute;
+  right: calc(50% - 10px);
+  top: calc(50% - 10px);
 }
 
 .shitpage p, .shitpage h2 {
@@ -310,15 +355,13 @@ figure > figcaption {
 
 .contact {
   position:fixed;
-  width:500px;
-  height:550px;
   background-color:#4592b7;
   z-index:510;
-  top: calc(50% - 250px);
-  left: calc(50% - 250px);
+  left:0px;
+  width:100%;
   box-shadow:5px 5px 5px #2b2b2b;
   border-radius:15px;
-  display:none;
+  opacity:0;
 }
 
 .contact header {
@@ -413,16 +456,13 @@ figure > figcaption {
 
 
 /*Last thing remaining is to add transitions*/
-.slider>img{
+.slider>a>img{
 	position: absolute;
 	left: 0; top: 0;
 	transition: all 0.5s;
   max-width:100%;
   box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.75);
   cursor:pointer;
-}
-.slider>img:hover {
-  opacity:0.8;
 }
 
 .slider input[name='slide_switch'] {
@@ -442,7 +482,9 @@ figure > figcaption {
 	/*Default style = low opacity*/
 	opacity: 0.6;
 }
-
+.slider a {
+  display:inline;
+}
 .slider label img{
 	display: block;
 }
@@ -455,7 +497,7 @@ figure > figcaption {
 }
 /*Clicking any thumbnail now should change its opacity(style)*/
 /*Time to work on the main images*/
-.slider input[name='slide_switch'] ~ img {
+.slider input[name='slide_switch'] ~ a > img {
 	visibility:hidden;
   opacity:0;
 	transform: scale(1.1);
@@ -464,7 +506,7 @@ figure > figcaption {
 /*That hides all main images at a 110% size
 On click the images will be displayed at normal size to complete the effect
 */
-.slider input[name='slide_switch']:checked+label+img {
+.slider input[name='slide_switch']:checked+label+a > img {
 	visibility:visible;
   opacity:1;
 	transform: scale(1);
@@ -472,3 +514,12 @@ On click the images will be displayed at normal size to complete the effect
 /*Clicking on any thumbnail now should activate the image related to it*/
 
 /*We are done :)*/
+
+.downarrow {
+  display:none;
+  position: absolute;
+  bottom: 0px;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 20px;
+}

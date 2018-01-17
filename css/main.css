@@ -188,6 +188,7 @@ figure > figcaption {
 }
 
 .shitpage {
+  display:none;
   background-color:gray;
   font-size:48px;
   color:pink;
