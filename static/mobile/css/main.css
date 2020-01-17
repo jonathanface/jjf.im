@@ -1,0 +1,525 @@
+* {
+  box-sizing:border-box;
+}
+html, body {
+  overflow:hidden;
+  height: 100%;
+}
+html {
+  margin:0;
+  padding:0;
+}
+body {
+  position:relative;
+  margin:0;
+  padding:0;
+  background-color:#4592b7;
+  width:100%;
+  height:100vh;
+  font-family: 'Roboto', Verdana, Geneva, sans-serif;
+  color:#FFF;
+  letter-spacing: 1.1px;
+  cursor:default;
+  font-size:18px;
+  overflow-y:scroll;
+}
+
+a {
+  color:inherit;
+  text-decoration:none;
+}
+
+main {
+  width:100%;
+  height:100vh;
+  position:relative;
+}
+main > article {
+  width:100%;
+  display:inline-block;
+  height:100%;
+  position:relative;
+  z-index:10;
+}
+
+main > section {
+  padding:20px;
+  position:relative;
+}
+
+main > section .mask {
+  display:none;
+}
+
+main > section header {
+  margin-bottom: 10px;
+}
+
+main > section header h2 {
+  font-size: 1.4rem;
+  font-weight:normal;
+  margin:0px;
+}
+main > section header h3 {
+  font-size: 0.87125rem;
+  font-weight: normal;
+  opacity: 0.8;
+  margin: 0px;
+  padding: 0px;
+}
+main > section header i {
+  cursor:pointer;
+  margin-right:10px;
+}
+main > section header i:hover {
+  opacity:0.8;
+}
+
+main > section article a {
+  vertical-align:middle;
+  display:inline-block;
+  width:100%;
+}
+main > section article ul a:hover {
+  opacity:0.8;
+}
+main > section article a img {
+  vertical-align:middle;
+}
+main > section:nth-child(1) {
+  position:relative;
+}
+
+main > section:nth-child(2) {
+  width:100%;
+}
+
+figure {
+  margin:0;
+  padding:0;
+  overflow:hidden;
+}
+
+figure > img {
+  border: 1px solid #dcdcdc;
+}
+
+figure > figcaption {
+  font-size: 1rem;
+  line-height: 1.2rem;
+  text-align: center;
+  padding: 10px;
+}
+
+.fade_to_blue {
+  background:#4592b7;
+  transition:background 0.5s;
+}
+.fade_to_light_blue {
+ /* background:#FFB158;*/
+  background:#6AAECF;
+  transition:background 0.5s;
+}
+.fade_to_dark_blue {
+  background:#346982;
+  transition:background 0.5s;
+}
+
+.hi {
+  position:relative;
+  opacity:0;
+  text-align:center;
+  font-size:75px;
+  margin-top:100px;
+}
+
+.shitpage {
+  background-color:gray;
+  font-size:24px;
+  color:pink;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  position:absolute;
+  top:0px;
+  bottom:0px;
+  width: 100%;
+  text-align: center;
+  z-index:1;
+}
+
+.shitpage .container {
+  position:relative;
+  height:100%;
+  background-color:gray;
+}
+
+.shitpage .divider {
+  position:absolute;
+  width:50%;
+  height:50%;
+}
+.shitpage .divider:nth-child(1) {
+  left:0px;
+  top:0px;
+}
+.shitpage .divider:nth-child(2) {
+  left:50%;
+  top:0px;
+}
+.shitpage .divider:nth-child(3) {
+  top:50%;
+  left:0px;
+}
+.shitpage .divider:nth-child(4) {
+  left:50%;
+  top:50%;
+}
+
+.shitpage .divider .red_bar {
+  background-color:#940000;
+  position:absolute;
+  z-index:101;
+
+}
+.shitpage .divider:nth-child(1) .red_bar.right {
+  width:10px;
+  height:0%;
+  right:0px;
+}
+.shitpage .divider:nth-child(3) .red_bar.right {
+  width:10px;
+  height:0%;
+  right:0px;
+  bottom:0px;
+}
+.shitpage .divider:nth-child(2) .red_bar.left {
+  width:10px;
+  height:0%;
+  left:0px;
+}
+.shitpage .divider:nth-child(4) .red_bar.left {
+  width:10px;
+  height:0%;
+  left:0px;
+  bottom:0px;
+}
+.shitpage .divider:nth-child(1) .red_bar.bottom {
+  height:10px;
+  width:0%;
+  left:0px;
+  bottom:0px;
+}
+.shitpage .divider:nth-child(2) .red_bar.bottom {
+  height:10px;
+  width:0%;
+  right:0px;
+  bottom:0px;
+}
+.shitpage .divider:nth-child(3) .red_bar.top {
+  height:10px;
+  width:0%;
+  left:0px;
+  top:0px;
+}
+.shitpage .divider:nth-child(4) .red_bar.top {
+  height:10px;
+  width:0%;
+  right:0px;
+  top:0px;
+}
+
+.pulser {
+  display:none;
+  z-index:10;
+  background-color:#940000;
+  width:20px;
+  height:20px;
+  position:absolute;
+  right: calc(50% - 10px);
+  top: calc(50% - 10px);
+}
+
+.shitpage p, .shitpage h2 {
+  margin:0;
+  padding:0;
+}
+
+.menu_tree ul, aside > section:nth-child(2) ul {
+  list-style:none;
+  padding:0;
+  text-align:center;
+  margin: 0 auto;
+  text-align: left;
+  width: 50%;
+  line-height: 50px;
+}
+
+.slick-slide {
+  min-width:200px;
+}
+
+.slick-slide img {
+ vertical-align:middle;
+ max-height: 200px;
+}
+.slick-slide img:hover {
+  opacity:0.8;
+  cursor:pointer;
+}
+
+.bio {
+  width: 75%;
+  margin: 0 auto;
+  height: 100%;
+  padding:10%;
+  display:none;
+  text-shadow:1px 1px #676767;
+}
+
+.bio > h2 {
+  font-size:1.5rem;
+  font-weight:normal;
+}
+
+.menu_tree {
+  margin-left:20px;
+  line-height:30px;
+  margin-top:-5px;
+}
+.menu_tree > div {
+  cursor:pointer;
+}
+
+.menu_tree > div:hover {
+  opacity:0.8;
+}
+.menu_tree > div .fa {
+  min-width:15px;
+  margin-right:5px;
+}
+.menu_tree ul {
+  width:auto;
+  margin-left:40px;
+  display:none;
+  line-height:30px;
+  letter-spacing:normal;
+}
+
+.menu_tree ul:nth-of-type(3) li {
+  font-size:0.825rem;
+  line-height:1.5rem;
+  margin-bottom:10px;
+  letter-spacing:1px;
+}
+.menu_tree ul > li {
+  cursor:default;
+  text-shadow:none;
+}
+.menu_tree ul > li b {
+  font-size:1rem;
+  font-weight:normal;
+}
+.menu_tree ul > li:hover {
+  opacity:1;
+}
+.menu_tree ul > li .indent {
+  margin-left:10px;
+}
+
+.menu_tree ul > li > div {
+  font-family:Courier;
+  font-size:0.8rem;
+  line-height:0.9rem;
+  margin-left:20px;
+  display:none;
+  opacity:0.8;
+}
+
+
+
+.dissolve {
+  transition:opacity 0.3s ease-out, transform 0.3s ease-out;
+  opacity:0 !important;
+  transform:scale(1.01);
+}
+
+.contact_bg {
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  opacity:0;
+  background-color:#757575;
+  z-index:500;
+}
+
+.contact {
+  position:fixed;
+  background-color:#4592b7;
+  z-index:510;
+  left:0px;
+  width:100%;
+  box-shadow:5px 5px 5px #2b2b2b;
+  border-radius:15px;
+  opacity:0;
+}
+
+.contact header {
+  padding:10px;
+  text-align:right;
+}
+
+.contact header i:hover {
+  cursor:pointer;
+  opacity:0.8;
+}
+
+.contact section {
+  display:block;
+  padding:20px;
+}
+.contact section p {
+  margin:0px;
+  margin-bottom:5px;
+}
+.contact section h3 {
+  margin-top:0px;
+}
+.contact section form {
+  width:100%;
+}
+
+.contact section form textarea {
+  border:none;
+  resize:none;
+  width:100%;
+  height:300px;
+  border-radius:5px;
+  background-color:#f7f7f7;
+  padding: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  outline:none;
+  letter-spacing: 1px;
+  color:gray;
+}
+
+.contact section form input[type="email"] {
+  border:none;
+  resize:none;
+  width:100%;
+  outline:none;
+  border-radius:5px;
+  background-color:#f7f7f7;
+  padding: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  letter-spacing: 1px;
+  color:gray;
+}
+
+.contact section form input[type="submit"] {
+  background-color: #6AAECF;
+  border: none;
+  color: #FFF;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1rem;
+  border: 1px solid #fff;
+  outline:none;
+}
+.contact section form input[type="submit"]:hover {
+  cursor:pointer;
+  opacity:0.8;
+}
+
+.fadeIn {
+  display:initial;
+  transform:scale(1.01);
+  opacity:0;
+  transition:opacity 4s ease-out, transform 4s ease-out;
+  opacity:1 !important;
+  transform:scale(1);
+}
+
+.slider {
+	 /*Same as width of the large image*/
+	position: relative;
+	/*Instead of height we will use padding*/
+	/*That helps bring the labels down*/
+	padding-top:350px;
+	margin: 0 auto;
+	
+	/*Lets add a shadow*/
+	
+}
+
+
+/*Last thing remaining is to add transitions*/
+.slider>a>img{
+	position: absolute;
+	left: 0; top: 0;
+	transition: all 0.5s;
+  max-width:100%;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.75);
+  cursor:pointer;
+}
+
+.slider input[name='slide_switch'] {
+	display: none;
+}
+
+.slider label {
+  display:none;
+	/*Lets add some spacing for the thumbnails*/
+	margin: 18px 0 0 18px;
+	border: 3px solid #999;
+	
+	float: left;
+	cursor: pointer;
+	transition: all 0.5s;
+	
+	/*Default style = low opacity*/
+	opacity: 0.6;
+}
+.slider a {
+  display:inline;
+}
+.slider label img{
+	display: block;
+}
+
+/*Time to add the click effects*/
+.slider input[name='slide_switch']:checked+label {
+	border-color: #666;
+	opacity: 1;
+  visibility:visible;
+}
+/*Clicking any thumbnail now should change its opacity(style)*/
+/*Time to work on the main images*/
+.slider input[name='slide_switch'] ~ a > img {
+	visibility:hidden;
+  opacity:0;
+	transform: scale(1.1);
+  
+}
+/*That hides all main images at a 110% size
+On click the images will be displayed at normal size to complete the effect
+*/
+.slider input[name='slide_switch']:checked+label+a > img {
+	visibility:visible;
+  opacity:1;
+	transform: scale(1);
+}
+/*Clicking on any thumbnail now should activate the image related to it*/
+
+/*We are done :)*/
+
+.downarrow {
+  display:none;
+  position: absolute;
+  bottom: 0px;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 20px;
+}
