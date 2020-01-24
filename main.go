@@ -37,6 +37,16 @@ func getConfigurationAndSetDBCredentials() {
 	}
 }
 
+func redirect(w http.ResponseWriter, req *http.Request) {
+  // remove/add not default ports from req.Host
+  target := "https://" + req.Host + req.URL.Path 
+  if len(req.URL.RawQuery) > 0 {
+    target += "?" + req.URL.RawQuery
+  }
+  fmt.Printf("redirect to: %s", target)
+  http.Redirect(w, req, target, http.StatusTemporaryRedirect)
+}
+
 func main() {
 
 	getConfigurationAndSetDBCredentials()
@@ -52,6 +62,7 @@ func main() {
 	host, _ := os.Hostname()
   fmt.Println(host, opts)
 	if host != opts.PcName {
+    go http.ListenAndServe(PORT, http.HandlerFunc(redirect))
 		fmt.Println("listening on encrypted " + PORT)
 		http.ListenAndServeTLS(PORT, opts.Cert, opts.PrivKey, rtr)
 	} else {
