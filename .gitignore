@@ -1,7 +1,7 @@
 node_modules
 *.exe
 conf.json
-static/js/dist/
+static/js/dist
 static/3D/*.jpg
 static/3D/*.mtl
 static/3D/*.obj
