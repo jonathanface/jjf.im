@@ -13,7 +13,7 @@ body {
   position:relative;
   margin:0;
   padding:0;
-  background-color:#4592b7;
+  background-color:#000;
   width:100%;
   height:100vh;
   font-family: 'Roboto', Verdana, Geneva, sans-serif;
@@ -38,6 +38,12 @@ main {
 }
 
 canvas {
-  with:100%;
+  width:100%;
   height:100%;
+}
+
+.controls {
+  position:absolute;
+  bottom:20px;
+  opacity:0.9;
 }
