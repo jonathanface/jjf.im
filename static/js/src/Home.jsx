@@ -1,32 +1,40 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as BABYLON from 'babylonjs';
+import * as Materials from 'babylonjs-materials';
 import * as BLOADERS from 'babylonjs-loaders'
+
+const HOUSE_SIZE = 6;
+const BASE_POS = {x:-5, y:4.2, z:6};
+const START_POS = {x:BASE_POS.x, y:BASE_POS.y+2, z:BASE_POS.z+1.35};
+const START_ANGLE = {x:START_POS.x, y:START_POS.y, z:START_POS.z-3};
+
+
 
 export class Home extends React.Component {
   
   constructor() {
     super();
-    this.state = {};
-    this.state.scene = null;
-    this.state.debugCam = null;
-    this.state.bulb = null;
-    this.state.bulbState = false;
-    this.state.bulbGlow = null;
-    this.state.domeMesh = null;
-    this.state.desk = null;
-    this.state.laptop = null;
-    this.state.mainCam = null;
-    this.state.canvas;
+    this.scene = null;
+    this.debugCam = null;
+    this.bulb = null;
+    this.bulbState = false;
+    this.bulbGlow = null;
+    this.domeMesh = null;
+    this.desk = null;
+    this.laptop = null;
+    this.lightswitch = null;
+    this.mainCam = null;
+    this.canvas;
   }
 
   showAxes(size) {
     var makeTextPlane = function(text, color, size) {
-    var dynamicTexture = new BABYLON.DynamicTexture("DynamicTexture", 50, self.scene, true);
+    var dynamicTexture = new BABYLON.DynamicTexture("DynamicTexture", 50, this.scene, true);
     dynamicTexture.hasAlpha = true;
     dynamicTexture.drawText(text, 5, 40, "bold 36px Arial", color , "transparent", true);
-    var plane = new BABYLON.Mesh.CreatePlane("TextPlane", size, self.scene, true);
-    plane.material = new BABYLON.StandardMaterial("TextPlaneMaterial", self.scene);
+    var plane = new BABYLON.Mesh.CreatePlane("TextPlane", size, this.scene, true);
+    plane.material = new BABYLON.StandardMaterial("TextPlaneMaterial", this.scene);
     plane.material.backFaceCulling = false;
     plane.material.specularColor = new BABYLON.Color3(0, 0, 0);
     plane.material.diffuseTexture = dynamicTexture;
@@ -36,69 +44,76 @@ export class Home extends React.Component {
     var axisX = BABYLON.Mesh.CreateLines("axisX", [ 
       new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0), 
       new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, -0.05 * size, 0)
-      ], self.scene);
+      ], this.scene);
     axisX.color = new BABYLON.Color3(1, 0, 0);
     var xChar = makeTextPlane("X", "red", size / 10);
     xChar.position = new BABYLON.Vector3(0.9 * size, -0.05 * size, 0);
     var axisY = BABYLON.Mesh.CreateLines("axisY", [
         new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3( -0.05 * size, size * 0.95, 0), 
         new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3( 0.05 * size, size * 0.95, 0)
-        ], self.scene);
+        ], this.scene);
     axisY.color = new BABYLON.Color3(0, 1, 0);
     var yChar = makeTextPlane("Y", "green", size / 10);
     yChar.position = new BABYLON.Vector3(0, 0.9 * size, -0.05 * size);
     var axisZ = BABYLON.Mesh.CreateLines("axisZ", [
         new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3( 0 , -0.05 * size, size * 0.95),
         new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3( 0, 0.05 * size, size * 0.95)
-        ], self.scene);
+        ], this.scene);
     axisZ.color = new BABYLON.Color3(0, 0, 1);
     var zChar = makeTextPlane("Z", "blue", size / 10);
     zChar.position = new BABYLON.Vector3(0, 0.05 * size, 0.9 * size);
   }
   
   addGround() {
-    var terrainMaterial = new BABYLON.TerrainMaterial("terrainMaterial", scene);
-    terrainMaterial.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
-    terrainMaterial.specularPower = 64;
-	
-	// Set the mix texture (represents the RGB values)
-    terrainMaterial.mixTexture = new BABYLON.Texture("textures/mixMap.png", scene);
-	
-	// Diffuse textures following the RGB values of the mix map
-	// diffuseTexture1: Red
-	// diffuseTexture2: Green
-	// diffuseTexture3: Blue
-    terrainMaterial.diffuseTexture1 = new BABYLON.Texture("textures/floor.png", scene);
-    terrainMaterial.diffuseTexture2 = new BABYLON.Texture("textures/rock.png", scene);
-    terrainMaterial.diffuseTexture3 = new BABYLON.Texture("textures/grass.png", scene);
-    
-	// Bump textures according to the previously set diffuse textures
-    terrainMaterial.bumpTexture1 = new BABYLON.Texture("textures/floor_bump.png", scene);
-    terrainMaterial.bumpTexture2 = new BABYLON.Texture("textures/rockn.png", scene);
-    terrainMaterial.bumpTexture3 = new BABYLON.Texture("textures/grassn.png", scene);
-   
-    // Rescale textures according to the terrain
-    terrainMaterial.diffuseTexture1.uScale = terrainMaterial.diffuseTexture1.vScale = 10;
-    terrainMaterial.diffuseTexture2.uScale = terrainMaterial.diffuseTexture2.vScale = 10;
-    terrainMaterial.diffuseTexture3.uScale = terrainMaterial.diffuseTexture3.vScale = 10;
-	
-	// Ground
-	var ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", "textures/heightMap.png", 100, 100, 100, 0, 10, scene, false);
-	ground.position.y = -2.05;
-	ground.material = terrainMaterial;
+    var mix = new Materials.MixMaterial("mix", this.scene);
+
+    // Setup mix texture 1
+    mix.mixTexture1 = new BABYLON.Texture("textures/mixMap.png", this.scene);
+    mix.diffuseTexture1 = new BABYLON.Texture("textures/floor.png", this.scene);
+    mix.diffuseTexture2 = new BABYLON.Texture("textures/rock.png", this.scene);
+    mix.diffuseTexture3 = new BABYLON.Texture("textures/grass.png", this.scene);
+    mix.diffuseTexture4 = new BABYLON.Texture("textures/floor.png", this.scene);
+
+    mix.diffuseTexture1.uScale = mix.diffuseTexture1.vScale = 10;
+    mix.diffuseTexture2.uScale = mix.diffuseTexture2.vScale = 10;
+    mix.diffuseTexture3.uScale = mix.diffuseTexture3.vScale = 10;
+    mix.diffuseTexture4.uScale = mix.diffuseTexture4.vScale = 10;
+
+    // Ground
+    let ground = BABYLON.Mesh.CreateGroundFromHeightMap('ground', 'textures/heightMap.png', 100, 100, 100, 0, 10, this.scene, false);
+    ground.position.y = -2.05;
+    mix.ambientColor = new BABYLON.Color3.FromHexString('#195c1a');
+    ground.material = mix;
   }
 
-  highlightMesh(mesh, color, scene) {
-    var hl = new BABYLON.HighlightLayer("hl1", scene);
+  addMetaData(mesh, label, value) {
+    if (!mesh.metadata) {
+      mesh.metadata = {};
+    }
+    mesh.metadata[label] = value;
+  }
+
+  highlightMesh(mesh, color) {
+    let hl = new BABYLON.HighlightLayer("hl1", this.scene);
     hl.addMesh(mesh, color);
+    this.addMetaData(mesh, 'highlight', hl);
+  }
+  
+  removeMeshHighlight(mesh) {
+    if (mesh.metadata && mesh.metadata.highlight) {
+      mesh.metadata.highlight.removeMesh(mesh);
+      mesh.metadata.highlight = null;
+    }
   }
   
   jumpToDebugCam() {
-    this.state.scene.activeCameras.push(this.state.debugCam);
+    this.scene.activeCameras = [];
+    this.scene.activeCameras.push(this.debugCam);
   }
   
   jumpToInteriorCam() {
-    this.state.scene.activeCameras.push(this.state.mainCam);
+    this.scene.activeCameras = [];
+    this.scene.activeCameras.push(this.mainCam);
   }
   
   addHelperPoint(vector, color) {
@@ -115,30 +130,30 @@ export class Home extends React.Component {
   }
   
   addDebugLight() {
-    let light = new BABYLON.HemisphericLight('light', new BABYLON.Vector3(2,2,2), this.state.scene);
+    let light = new BABYLON.HemisphericLight('light', new BABYLON.Vector3(2,2,2), this.scene);
     light.diffuse = new BABYLON.Color3(1,1,1);
     light.specular = new BABYLON.Color3(0, 0, 0);
     light.groundColor = new BABYLON.Color3(0, 0, 0);
   }
   
   toggleLightBulb() {
-    if (this.state.bulbState) {
-      if (this.state.bulbGlow) {
-        this.state.bulbGlow.dispose();
+    if (this.bulbState) {
+      if (this.bulbGlow) {
+        this.bulbGlow.dispose();
       }
-      if (this.state.domeMesh.material) {
-        this.state.domeMesh.material = null;
+      if (this.domeMesh.material) {
+        this.domeMesh.material = null;
       }
     } else {
-      this.state.bulbGlow = new BABYLON.HighlightLayer("hg", this.state.scene);
-      this.state.bulbGlow.innerGlow = false;
-      this.state.bulbGlow.addMesh(this.state.domeMesh, new BABYLON.Color3(.9, .9, .9));
-      let materialGlow = new BABYLON.StandardMaterial('lamplight', this.state.scene);
+      this.bulbGlow = new BABYLON.HighlightLayer("hg", this.scene);
+      this.bulbGlow.innerGlow = false;
+      this.bulbGlow.addMesh(this.domeMesh, new BABYLON.Color3(.9, .9, .9));
+      let materialGlow = new BABYLON.StandardMaterial('lamplight', this.scene);
       materialGlow.emissiveColor = new BABYLON.Color3(1.0, 1.0, 0.7);
-      this.state.domeMesh.material = materialGlow;
+      this.domeMesh.material = materialGlow;
     }
-    this.state.bulbState = !this.state.bulbState;
-    this.state.bulb.setEnabled(this.state.bulbState);
+    this.bulbState = !this.bulbState;
+    this.bulb.setEnabled(this.bulbState);
   }
   
   parentImportedMeshes(array, blocking) {
@@ -152,159 +167,213 @@ export class Home extends React.Component {
     return node;
   }
   
+  mouseOverSwitch() {
+    this.lightswitch.getChildMeshes().forEach(mesh => {
+      this.highlightMesh(mesh, BABYLON.Color3.Yellow());
+    });
+  }
+  
+  mouseClickSwitch() {
+    
+  }
+  
+  mouseOutSwitch() {
+    this.lightswitch.getChildMeshes().forEach(mesh => {
+      this.removeMeshHighlight(mesh);
+    });
+  }
+  
+  mouseClickSwitch() {
+    this.toggleLightBulb();
+  }
+  
   initializeScene() {
-    let self = this;
-    this.state.canvas = document.getElementsByTagName('canvas')[0]; // Get the canvas element 
-    let engine = new BABYLON.Engine(this.state.canvas, true); // Generate the BABYLON 3D engine
+    this.canvas = document.getElementsByTagName('canvas')[0]; // Get the canvas element 
+    let engine = new BABYLON.Engine(this.canvas, true); // Generate the BABYLON 3D engine
     BLOADERS.OBJFileLoader.MATERIAL_LOADING_FAILS_SILENTLY = false;
     
-    BABYLON.SceneLoader.Load('3D/', 'wall.babylon', engine, function (newScene) {
-      self.state.scene = newScene;
-      self.state.scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
-      self.state.scene.clearColor = new BABYLON.Color3.FromHexString('#OC1445');
-      //self.state.scene.debugLayer.show();
-      let wall1 = self.state.scene.meshes[0];
+
+    this.scene = new BABYLON.Scene(engine);
+    this.scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
+    this.scene.clearColor = new BABYLON.Color3.FromHexString('#OC1445');
+    this.scene.ambientColor = new BABYLON.Color3(0.3, 0.3, 0.3);
+    this.scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
+    this.scene.fogDensity = 0.03;
+    
+    let floor = BABYLON.MeshBuilder.CreatePlane('ground', {width: HOUSE_SIZE, height: HOUSE_SIZE, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, this.scene);
+    let material = new BABYLON.StandardMaterial('groundMat', this.scene);
+    floor.material = material;
+    floor.position.y = BASE_POS.y;
+    floor.position.x = BASE_POS.x;
+    floor.position.z = BASE_POS.z;
+    
+    floor.rotate(BABYLON.Axis.X, Math.PI/2, BABYLON.Space.WORLD);
+    floor.checkCollisions = true;
+    material.diffuseTexture = new BABYLON.Texture('textures/concrete_floor.jpg', this.scene);
+    let self = this;
+    BABYLON.SceneLoader.ImportMesh('', '3D/', 'wall.babylon', self.scene, function (newMeshes) {
+      let wall1 = newMeshes[0];
       wall1.scaling = wall1.scaling.multiply(new BABYLON.Vector3(1, 1, 1.5));
-      wall1.bakeCurrentTransformIntoVertices();
+      wall1.position.x = BASE_POS.x;
+      wall1.position.y = BASE_POS.y;
+      wall1.position.z = BASE_POS.z - HOUSE_SIZE/2;
       
-      let win = BABYLON.Mesh.CreateBox('window', 1, self.state.scene);
-      win.scaling = new BABYLON.Vector3(0.5, 1, 1);
-      win.position = new BABYLON.Vector3(wall1.position.x, 2, wall1.position.z);
+      let win = BABYLON.Mesh.CreateBox('window', 1, self.scene);
+      win.position = new BABYLON.Vector3(BASE_POS.x, BASE_POS.y + 2, BASE_POS.z - HOUSE_SIZE/2);
       let wallCSG = BABYLON.CSG.FromMesh(wall1);
       var subCSG = wallCSG.subtract(BABYLON.CSG.FromMesh(win));
-      let newWall = subCSG.toMesh('wall', wall1.material, self.state.scene);
+      let newWall = subCSG.toMesh('wall', wall1.material, self.scene);
       newWall.checkCollisions = true;
       let winSize = win.getBoundingInfo().boundingBox.extendSize;
-      let bar = BABYLON.MeshBuilder.CreateCylinder('bar', {height:winSize.y*2, diameter:0.03}, self.state.scene);
+      let bar = BABYLON.MeshBuilder.CreateCylinder('bar', {height:winSize.y*2, diameter:0.03}, self.scene);
       bar.checkCollisions = true;
-      let blackMat = new BABYLON.StandardMaterial("blackMat", self.state.scene);
+      let blackMat = new BABYLON.StandardMaterial("blackMat", self.scene);
       blackMat.diffuseColor = BABYLON.Color3.Black();
       bar.material = blackMat;
-      bar.position.x = win.position.x + (winSize.x / 4);
+      bar.position.x = win.position.x;
       bar.position.z = win.position.z;
       bar.position.y = win.position.y;
       let bar2 = bar.clone();
-      bar2.position.x = win.position.x;
+      bar2.position.x -= winSize.x/2;
       let bar3 = bar.clone();
-      bar3.position.x = - (winSize.x / 4);
+      bar3.position.x += winSize.x/2;
       win.dispose();
-      
-      let wallSize = newWall.getBoundingInfo().boundingBox.extendSize;
+      let wallSize = wall1.getBoundingInfo().boundingBox.extendSize;
 
       let wall2 = wall1.clone();
-      wall2.position.x += wallSize.x;
-      wall2.position.z += wallSize.x;
       wall2.rotate(BABYLON.Axis.Y, Math.PI/2, BABYLON.Space.WORLD);
+      wall2.position.x -= wallSize.x;
+      wall2.position.z = BASE_POS.z - wallSize.y;
       wall2.checkCollisions = true;
 
       let wall3 = wall1.clone();
-      wall3.position.x -= wallSize.x;
-      wall3.position.z += wallSize.x;
       wall3.rotate(BABYLON.Axis.Y, Math.PI/2, BABYLON.Space.WORLD);
-      
+      wall3.position.x += wallSize.x;
+      wall3.position.z = BASE_POS.z - wallSize.y;
       wall3.checkCollisions = true;
 
-     
       let wall4 = wall1.clone();
-      wall4.position.z += wallSize.x*2;
+      wall4.position.z += (wallSize.x*2) - wallSize.y;
       wall4.checkCollisions = true;
 
+      let ceiling = BABYLON.MeshBuilder.CreatePlane('ceiling', {width: wallSize.x*2, height: wallSize.x*2, sideOrientation:BABYLON.Mesh.DOUBLESIDE}, self.scene);
+      material = new BABYLON.StandardMaterial('ceilingMat', self.scene);
+      material.roughness = 1;
+      material.diffuseTexture = new BABYLON.Texture('textures/ceiling.jpg', self.scene);
+      ceiling.material = material;
+      ceiling.rotate(BABYLON.Axis.X, Math.PI/2, BABYLON.Space.WORLD);
+      ceiling.position.x = BASE_POS.x - wallSize.y;
+      ceiling.position.y = BASE_POS.y + wall1.position.y;
+      ceiling.position.z = BASE_POS.z - wallSize.y;
+      ceiling.checkCollisions = true;
+      
+      let wallpos = wall1.position;
       wall1.dispose();
       
-      let floor = BABYLON.MeshBuilder.CreatePlane('ground', {width: wallSize.x*2, height: wallSize.x*2}, self.state.scene);
-      let material = new BABYLON.StandardMaterial('groundMat', self.state.scene);
-      floor.material = material;
-      floor.position.z += wallSize.x;
-      floor.rotate(BABYLON.Axis.X, Math.PI/2, BABYLON.Space.WORLD);
-      floor.checkCollisions = true;
-      material.diffuseTexture = new BABYLON.Texture('textures/concrete_floor.jpg', self.state.scene);
       
-      let ceiling = BABYLON.MeshBuilder.CreatePlane('ceiling', {width: wallSize.x*2, height: wallSize.x*2, sideOrientation:BABYLON.Mesh.DOUBLESIDE}, self.state.scene);
-      material = new BABYLON.StandardMaterial('ceilingMat', self.state.scene);
-      material.roughness = 1;
-      ceiling.material = material;
-      ceiling.position.z += wallSize.x;
-      ceiling.position.y = wallSize.y*2 - 0.5;
-      ceiling.rotate(BABYLON.Axis.X, Math.PI/2, BABYLON.Space.WORLD);
-      ceiling.checkCollisions = true;
-      material.diffuseTexture = new BABYLON.Texture('textures/ceiling.jpg', self.state.scene);
-
-  
-      BABYLON.SceneLoader.ImportMesh('', '3D/', 'lamp.babylon', self.state.scene, function (newMeshes) {
+      BABYLON.SceneLoader.ImportMesh('', '3D/', 'lamp.babylon', self.scene, function (newMeshes) {
         let lamp = new BABYLON.TransformNode();
         newMeshes.forEach(mesh => {
           if (!mesh.parent) {
             mesh.parent = lamp;
           }
           if (mesh.name == 'Line151') {
-            self.state.domeMesh = mesh;
+            self.domeMesh = mesh;
           }
         });
-        
-        lamp.position.y = wallSize.y*2 - 1.15;
-        lamp.position.x = 0.5;
-        lamp.position.z = 0.5;
+        lamp.position.y = BASE_POS.y + wallpos.y - 1.15;
+        lamp.position.x = BASE_POS.x + 0.5;
+        lamp.position.z = BASE_POS.z - 1.5;
         let lightPos = lamp.position.clone();
         lightPos.y += 0.2;
         lightPos.x -= 0.1;
        
-        self.state.bulb = new BABYLON.PointLight('lightbulb', lightPos, self.state.scene);
-        self.state.bulb.range /= 2;
-        self.state.bulb.diffuse = new BABYLON.Color3(1, 1, 1);
-        self.state.bulb.specular = new BABYLON.Color3(1, 1, 1);
-        self.state.bulb.groundColor = new BABYLON.Color3(0, 0, 0);
-        self.state.bulb.excludedMeshes.push(self.state.domeMesh);
-        self.state.bulb.parent = lamp;
-        self.state.bulb.setEnabled(false);
+        self.bulb = new BABYLON.PointLight('lightbulb', lightPos, self.scene);
+        self.bulb.range /= 2;
+        self.bulb.diffuse = new BABYLON.Color3(1, 1, 1);
+        self.bulb.specular = new BABYLON.Color3(1, 1, 1);
+        self.bulb.groundColor = new BABYLON.Color3(0, 0, 0);
+        self.bulb.excludedMeshes.push(self.domeMesh);
+        self.bulb.parent = lamp;
+        self.bulb.setEnabled(false);
       });
       
-      BABYLON.SceneLoader.ImportMesh("", "3D/", "desk.babylon", self.state.scene, function (newMeshes) {
-        self.state.desk = self.parentImportedMeshes(newMeshes, true);
-        console.log(self.state.desk.getHierarchyBoundingVectors());
-        self.state.desk.scaling = self.state.desk.scaling.multiply(new BABYLON.Vector3(0.6, 0.6, 0.6));
-        //desk.rotate(BABYLON.Axis.Y, Math.PI/2, BABYLON.Space.WORLD);
-        let deskSize = self.state.desk.getHierarchyBoundingVectors().max;
-        self.state.desk.position.z = wallSize.z + deskSize.z;
-        self.state.desk.position.x -= wallSize.x - deskSize.x;
+      BABYLON.SceneLoader.ImportMesh("", "3D/", "desk.babylon", self.scene, function (newMeshes) {
+        self.desk = self.parentImportedMeshes(newMeshes, true);
+        self.desk.scaling = self.desk.scaling.multiply(new BABYLON.Vector3(0.6, 0.6, 0.6));
+        let deskSize = self.desk.getHierarchyBoundingVectors().max;
+        self.desk.position.y = BASE_POS.y;
+        self.desk.position.z = BASE_POS.z - wallSize.x + deskSize.z;
+        self.desk.position.x = BASE_POS.x - wallSize.x + deskSize.x;
+        self.desk.applyGravity = true;
+        self.desk.checkCollisions = true;
         
-        BABYLON.SceneLoader.ImportMesh('', '3D/', 'laptop.babylon', self.state.scene, function (newMeshes) {
-          self.state.laptop = self.parentImportedMeshes(newMeshes, true);
-          self.state.laptop.scaling = self.state.laptop.scaling.multiply(new BABYLON.Vector3(1.1,1.1,1.1));
-          //let lapSize = self.state.laptop.getHierarchyBoundingVectors().max;
-          self.state.laptop.position.z = wallSize.z + 1;
-          self.state.laptop.position.x -= wallSize.x + 0.5;
-          self.state.laptop.position.y = 0.7;
-          //self.state.laptop.applyGravity = true;
-          //self.state.laptop.rotate(BABYLON.Axis.X, Math.PI/4, BABYLON.Space.WORLD);
+        BABYLON.SceneLoader.ImportMesh('', '3D/', 'laptop.babylon', self.scene, function (newMeshes) {
+          self.laptop = self.parentImportedMeshes(newMeshes, true);
+          self.laptop.scaling = self.laptop.scaling.multiply(new BABYLON.Vector3(1.1,1.1,1.1));
+          self.laptop.position.z = BASE_POS.z - wallSize.x + 0.5;
+          self.laptop.position.x = BASE_POS.x - wallSize.x - 0.3;
+          self.laptop.position.y = BASE_POS.y + 0.7;
+          self.laptop.applyGravity = true;
+          self.laptop.checkCollisions = true;
+          //self.laptop.rotate(BABYLON.Axis.Y, Math.PI/4, BABYLON.Space.LOCAL);
         });
       });
       
-      
-      
-      self.state.scene.executeWhenReady(function () {  
+      BABYLON.SceneLoader.ImportMesh('', '3D/', 'switch.babylon', self.scene, function (newMeshes) {
+        self.lightswitch = self.parentImportedMeshes(newMeshes, true);
+        self.lightswitch.scaling = self.lightswitch.scaling.multiply(new BABYLON.Vector3(0.09,0.09,0.09));
+        self.lightswitch.rotate(BABYLON.Axis.Y, Math.PI/2, BABYLON.Space.WORLD);
+        self.lightswitch.rotate(BABYLON.Axis.Z, Math.PI/2, BABYLON.Space.WORLD);
+        self.lightswitch.position.z = BASE_POS.z - wallSize.x + 0.15;
+        self.lightswitch.position.y = BASE_POS.y + 1.5;
+        self.lightswitch.position.x = BASE_POS.x + 1;
         
-        self.state.mainCam = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(0,2,2.5), self.state.scene);
-        self.state.mainCam.applyGravity = true;
-        self.state.mainCam.ellipsoid = new BABYLON.Vector3(1.5, 1, 1.5);
-        
-        self.state.scene.collisionsEnabled = true;
-        self.state.mainCam.checkCollisions = true;
-        self.state.mainCam.attachControl(self.state.canvas, true);
-        self.state.debugCam = new BABYLON.ArcRotateCamera('debugCam', 0, 0, 10, new BABYLON.Vector3(0, 0, 0), self.state.scene);
-        self.state.debugCam.setPosition(new BABYLON.Vector3(0, 10, 0));
-        self.state.debugCam.attachControl(self.state.canvas, true);
-        self.state.debugCam.attachControl(self.state.canvas, true);
-        //self.jumpToDebugCam(canvas);
-        //self.addDebugLight();
-        self.state.scene.activeCameras.push(self.state.mainCam);
-        
-        self.showAxes(3);
-
-        engine.runRenderLoop(function () {
-          self.state.scene.render();
+        let mouseOn = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, self.mouseOverSwitch.bind(self));
+        let mouseOff = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOutTrigger, self.mouseOutSwitch.bind(self));
+        let mouseClick = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, self.mouseClickSwitch.bind(self));
+        self.lightswitch.getChildMeshes().forEach(mesh => {
+          mesh.actionManager = new BABYLON.ActionManager(self.scene);	
+          mesh.actionManager.registerAction(mouseOn);
+          mesh.actionManager.registerAction(mouseOff);
+          mesh.actionManager.registerAction(mouseClick);
         });
       });
     });
+    
+    let skyboxMaterial = new Materials.SkyMaterial('skyMaterial', this.scene);
+    skyboxMaterial.backFaceCulling = false;
+    skyboxMaterial.inclination = -0.4;
+    skyboxMaterial.disableLighting = true;
+    let skybox = BABYLON.Mesh.CreateBox('skyBox', 1000.0, this.scene);
+    skybox.infiniteDistance = true;
+    skybox.material = skyboxMaterial;
+
+    this.scene.executeWhenReady(function () {  
+      self.addGround();
+      self.mainCam = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(START_POS.x, START_POS.y, START_POS.z), self.scene);
+      self.mainCam.setTarget(new BABYLON.Vector3(START_ANGLE.x, START_ANGLE.y, START_ANGLE.z));
+      self.mainCam.applyGravity = true;
+      self.mainCam.ellipsoid = new BABYLON.Vector3(1.5, 1, 1.5);
+      
+      self.scene.collisionsEnabled = true;
+      self.mainCam.checkCollisions = true;
+      self.mainCam.attachControl(self.canvas, true);
+      self.debugCam = new BABYLON.ArcRotateCamera('debugCam', 0, 0, 10, new BABYLON.Vector3(0, 0, 0), self.scene);
+      self.debugCam.setPosition(new BABYLON.Vector3(0, 10, 0));
+      self.debugCam.attachControl(self.canvas, true);
+      self.debugCam.attachControl(self.canvas, true);
+      //self.jumpToDebugCam(canvas);
+      //self.addDebugLight();
+      self.scene.activeCameras.push(self.mainCam);
+      
+      self.showAxes.bind(self, 3);
+
+      engine.runRenderLoop(function () {
+        self.scene.render();
+      });
+    });
+    
     
 
     // Watch for browser/canvas resize events
