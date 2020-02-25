@@ -27,6 +27,13 @@ export class Home extends React.Component {
     this.mainCam = null;
     this.canvas;
   }
+  
+  loadGraffiti(mesh) {
+    let graffiti = new BABYLON.StandardMaterial('graffiti', this.scene);
+    //graffiti.bumpTexture = new BABYLON.Texture('textures/wall_getout.jpg', this.scene);
+    graffiti.ambientTexture = new BABYLON.Texture('textures/wall_getout.jpg', this.scene);
+    mesh.material = graffiti;
+  }
 
   showAxes(size) {
     var makeTextPlane = function(text, color, size) {
@@ -239,6 +246,7 @@ export class Home extends React.Component {
       bar3.position.x += winSize.x/2;
       win.dispose();
       let wallSize = wall1.getBoundingInfo().boundingBox.extendSize;
+      self.loadGraffiti(newWall);
 
       let wall2 = wall1.clone();
       wall2.rotate(BABYLON.Axis.Y, Math.PI/2, BABYLON.Space.WORLD);
@@ -309,14 +317,26 @@ export class Home extends React.Component {
         self.desk.checkCollisions = true;
         
         BABYLON.SceneLoader.ImportMesh('', '3D/', 'laptop.babylon', self.scene, function (newMeshes) {
+          var gl = new BABYLON.GlowLayer('lcdglow', self.scene, {mainTextureSamples: 4});
+              gl.intensity = 0.2;
+              let rgba = new BABYLON.Color4.FromHexString('#ffffff');
+              gl.customEmissiveColorSelector = function(mesh, subMesh, material, result) {
+                  if (mesh.name === 'Plane_006' && !self.bulbState) {
+                    result.set(1, 1, 1, 1);
+                  } else {
+                    result.set(0, 0, 0, 0);
+                  }
+              }
+            
           self.laptop = self.parentImportedMeshes(newMeshes, true);
+          self.laptop.name = 'laptop';
           self.laptop.scaling = self.laptop.scaling.multiply(new BABYLON.Vector3(1.1,1.1,1.1));
           self.laptop.position.z = BASE_POS.z - wallSize.x + 0.5;
           self.laptop.position.x = BASE_POS.x - wallSize.x - 0.3;
           self.laptop.position.y = BASE_POS.y + 0.7;
           self.laptop.applyGravity = true;
           self.laptop.checkCollisions = true;
-          //self.laptop.rotate(BABYLON.Axis.Y, Math.PI/4, BABYLON.Space.LOCAL);
+          
         });
       });
       
