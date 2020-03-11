@@ -4,6 +4,7 @@ package main
 import (
 	"encoding/json"
   "fmt"
+  "io"
   "net/http"
   "os"
   
@@ -47,6 +48,31 @@ func redirect(w http.ResponseWriter, req *http.Request) {
   http.Redirect(w, req, target, http.StatusTemporaryRedirect)
 }
 
+func serveResume(w http.ResponseWriter, req *http.Request) {
+  fmt.Println("serving resume");
+  host, _ := os.Hostname()
+  filename := "C:\\Go\\work\\src\\jface\\jjf.im\\static\\media\\resume.pdf"
+  if host != opts.PcName {
+    filename = "/var/www/html/jjf.im/static/media/resume.pdf"
+  }
+  f, err := os.Open(filename)
+  if err != nil {
+    fmt.Println(err)
+    w.WriteHeader(500)
+    return
+  }
+  defer f.Close()
+
+  //Set header
+  w.Header().Set("Content-type", "application/pdf")
+
+  //Stream to response
+  if _, err := io.Copy(w, f); err != nil {
+    fmt.Println(err)
+    w.WriteHeader(500)
+  }
+}
+
 func main() {
 
 	getConfigurationAndSetDBCredentials()
@@ -55,7 +81,9 @@ func main() {
 	//GETs
 	//rtr.HandleFunc(SERVICE_PATH+"/quests", handleQuests).Methods("GET")
 	//rtr.HandleFunc(SERVICE_PATH + "/quests", validationMiddleware(API.FetchQuests)).Methods("GET", "OPTIONS")
-	
+	rtr.HandleFunc("/resume.pdf", serveResume).Methods("GET")
+  rtr.HandleFunc("/resume", serveResume).Methods("GET")
+  rtr.HandleFunc("/resume/", serveResume).Methods("GET")
 	rtr.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("static/"))))
 	http.Handle("/", rtr)
 
