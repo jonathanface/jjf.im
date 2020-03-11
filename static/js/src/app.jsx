@@ -4,6 +4,7 @@ import {Home} from './Home.jsx';
 
 const ROOT_ELEMENT = 'main';
 
+var isSoundPlaying = false;
 
 
 
@@ -16,4 +17,19 @@ window.onload = function() {
     return;
   }
   ReactDOM.render(<Home />, root);
+  
+  document.body.onclick = document.body.onscroll = document.body.onkeydown = function() {
+    if (!isSoundPlaying) {
+      let audio = document.getElementsByTagName('audio')[0];
+      audio.volume = 0.1;
+      audio.play();
+      audio.onended = () => {
+        isSoundPlaying = false;
+        let timer = Math.floor(Math.random() * (+8000 - +2000)) + +2000;
+        setTimeout(() => {
+          document.body.onclick();
+        }, timer);
+      };
+    }
+  }
 }
