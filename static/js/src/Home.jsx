@@ -200,10 +200,8 @@ export class Home extends React.Component {
   
   mouseClickBulb() {
     if (!this.cutscene) {
-      this.laptop.getChildMeshes().forEach(mesh => {
-        this.removeMeshHighlight(mesh);
-      });
       this.showNarration();
+      this.cutscene = true;
       setTimeout(() => {
         if (!this.bulbState) {
           this.typeNarration('I need to find a switch.');
@@ -213,6 +211,7 @@ export class Home extends React.Component {
       }, 1000);
       setTimeout(() => {
         this.hideNarration();
+        this.cutscene = false;
       }, 3000);
     }
   }
@@ -232,25 +231,17 @@ export class Home extends React.Component {
     this.setState({
       currentOutput:'Laptop'
     });
-    this.laptop.getChildMeshes().forEach(mesh => {
-      this.highlightMesh(mesh, BABYLON.Color3.White());
-    });
   }
   mouseOutLaptop() {
     this.setState({
       currentOutput:''
     });
-    this.laptop.getChildMeshes().forEach(mesh => {
-      this.removeMeshHighlight(mesh);
-    });
   }
 
   mouseClickLaptop() {
     if (!this.cutscene) {
-      this.laptop.getChildMeshes().forEach(mesh => {
-        this.removeMeshHighlight(mesh);
-      });
       this.showNarration();
+      this.cutscene = true;
       setTimeout(() => {
         this.setState({
           currentNarration:''
@@ -262,6 +253,7 @@ export class Home extends React.Component {
         }
       }, 1000);
       setTimeout(() => {
+        this.cutscene = false;
         this.hideNarration();
       }, 3000);
     }
@@ -275,16 +267,10 @@ export class Home extends React.Component {
     this.setState({
       currentOutput:'Light Switch'
     });
-    this.lightswitch.getChildMeshes().forEach(mesh => {
-      this.highlightMesh(mesh, BABYLON.Color3.Yellow());
-    });
   }
   mouseOutSwitch() {
     this.setState({
       currentOutput:''
-    });
-    this.lightswitch.getChildMeshes().forEach(mesh => {
-      this.removeMeshHighlight(mesh);
     });
   }
 
