@@ -200,6 +200,9 @@ export class Home extends React.Component {
   
   mouseClickBulb() {
     if (!this.cutscene) {
+      this.laptop.getChildMeshes().forEach(mesh => {
+        this.removeMeshHighlight(mesh);
+      });
       this.showNarration();
       setTimeout(() => {
         if (!this.bulbState) {
@@ -244,6 +247,9 @@ export class Home extends React.Component {
 
   mouseClickLaptop() {
     if (!this.cutscene) {
+      this.laptop.getChildMeshes().forEach(mesh => {
+        this.removeMeshHighlight(mesh);
+      });
       this.showNarration();
       setTimeout(() => {
         this.setState({
@@ -290,7 +296,7 @@ export class Home extends React.Component {
 
   initializeScene() {
     this.canvas = document.getElementsByTagName('canvas')[0]; // Get the canvas element 
-    let engine = new BABYLON.Engine(this.canvas, true); // Generate the BABYLON 3D engine
+    let engine = new BABYLON.Engine(this.canvas, false, null, true); // Generate the BABYLON 3D engine
     engine.displayLoadingUI();
     BLOADERS.OBJFileLoader.MATERIAL_LOADING_FAILS_SILENTLY = false;
 
@@ -487,7 +493,7 @@ export class Home extends React.Component {
     let skybox = BABYLON.Mesh.CreateBox('skyBox', 1000.0, this.scene);
     skybox.infiniteDistance = true;
     skybox.material = skyboxMaterial;
-
+    //this.scene.freezeActiveMeshes();
     this.scene.executeWhenReady(() => {
       this.addGround();
       this.mainCam = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(START_POS.x, START_POS.y, START_POS.z), this.scene);
@@ -506,10 +512,9 @@ export class Home extends React.Component {
       //this.addDebugLight();
       this.scene.activeCameras.push(this.mainCam);
       
-      this.showAxes.bind(this, 3);
+      //this.showAxes.bind(this, 3);
       engine.hideLoadingUI();
       this.showNarration();
-      
       setTimeout(() => {
         this.startIntroNarration();
       }, 1000);

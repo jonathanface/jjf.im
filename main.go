@@ -90,9 +90,11 @@ func main() {
 	host, _ := os.Hostname()
   fmt.Println(host, opts)
 	if host != opts.PcName {
-    go http.ListenAndServe(PORT, http.HandlerFunc(redirect))
+    //go http.ListenAndServe(PORT, http.HandlerFunc(redirect))
 		fmt.Println("listening on encrypted " + PORT)
-		http.ListenAndServeTLS(PORT, opts.Cert, opts.PrivKey, rtr)
+    cert := "/etc/letsencrypt/live/jjf.im/fullchain.pem"
+		prv_key := "/etc/letsencrypt/live/jjf.im/privkey.pem"
+		http.ListenAndServeTLS(PORT, cert, prv_key, rtr)
 	} else {
 		fmt.Println("listening on non-SSL " + PORT)
 		http.ListenAndServe(PORT, rtr)
