@@ -15,6 +15,9 @@ export class Home extends React.Component {
 
   constructor() {
     super();
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
+      this.isMobileDevice = true;
+    }
     this.scene = null;
     this.debugCam = null;
     this.bulb = null;
@@ -482,7 +485,14 @@ export class Home extends React.Component {
     //this.scene.freezeActiveMeshes();
     this.scene.executeWhenReady(() => {
       this.addGround();
-      this.mainCam = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(START_POS.x, START_POS.y, START_POS.z), this.scene);
+      if (this.isMobileDevice) {
+        this.mainCam = new BABYLON.DeviceOrientationCamera("DevOr_camera", new BABYLON.Vector3(0, 0, 0), this.scene);
+        // Sets the sensitivity of the camera to movement and rotation
+        this.mainCam.angularSensibility = 10;
+        this.mainCam.moveSensibility = 10;
+      } else {
+        this.mainCam = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(START_POS.x, START_POS.y, START_POS.z), this.scene);
+      }
       this.mainCam.setTarget(new BABYLON.Vector3(START_ANGLE.x, START_ANGLE.y, START_ANGLE.z));
       this.mainCam.applyGravity = true;
       this.mainCam.ellipsoid = new BABYLON.Vector3(1.5, 1, 1.5);

@@ -7,15 +7,11 @@ const ROOT_ELEMENT = 'main';
 var isSoundPlaying = false;
 
 
-
 window.onload = function() {
   let root = document.getElementsByTagName(ROOT_ELEMENT)[0];
   console.log('Why are you looking at my code?');
   
-  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-    window.location = 'https://jjf.im/mobile';
-    return;
-  }
+  
   ReactDOM.render(<Home />, root);
   
   document.body.onclick = document.body.onscroll = document.body.onkeydown = function() {
