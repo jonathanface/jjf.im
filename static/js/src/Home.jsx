@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Parser from 'html-react-parser';
 import * as BABYLON from 'babylonjs';
 import * as Materials from 'babylonjs-materials';
 import * as BLOADERS from 'babylonjs-loaders'
@@ -8,8 +9,7 @@ const HOUSE_SIZE = 6;
 const BASE_POS = {x:-5, y:4.2, z:6};
 const START_POS = {x:BASE_POS.x, y:BASE_POS.y+2, z:BASE_POS.z+1.15};
 const START_ANGLE = {x:START_POS.x, y:START_POS.y, z:START_POS.z-3};
-
-
+const INTRO_TEXT = 'You wake up in a dark room. The air is damp and cold. The sounds of dripping water are all around you, as are the scratchings of small creatures in the walls. There is a barred window before you outlined in pale moonlight.<br /><br />You have no idea how you got here.<br /><br />';
 
 export class Home extends React.Component {
 
@@ -18,6 +18,8 @@ export class Home extends React.Component {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
       this.isMobileDevice = true;
     }
+    this.firstLightSwitchHit = true;
+    this.isSoundPlaying = false;
     this.scene = null;
     this.debugCam = null;
     this.bulb = null;
@@ -41,7 +43,11 @@ export class Home extends React.Component {
       narrationVisibility:'narration_bg',
       currentNarration:'',
       outputVisibility:'output_bg',
-      currentOutput:''
+      currentOutput:'',
+      introVisibility:'intro_bg',
+      currentIntro:'',
+      showContinueButton:false,
+      introButtonVisibility:''
     };
   }
 
@@ -263,7 +269,14 @@ export class Home extends React.Component {
   }
 
   mouseClickSwitch() {
-    this.toggleLightBulb();
+    if (!this.cutscene) {
+      this.toggleLightBulb();
+      if (this.firstLightSwitchHit) {
+        this.firstLightSwitchHit = false;
+        let audio = document.getElementsByTagName('audio')[1];
+        audio.play();
+      }
+    }
   }
 
   mouseOverSwitch() {
@@ -276,13 +289,6 @@ export class Home extends React.Component {
       currentOutput:''
     });
   }
-
-  mouseClickSwitch() {
-    if (!this.cutscene) {
-      this.toggleLightBulb();
-    }
-  }
-
   initializeScene() {
     this.canvas = document.getElementsByTagName('canvas')[0]; // Get the canvas element 
     let engine = new BABYLON.Engine(this.canvas, false, null, true); // Generate the BABYLON 3D engine
@@ -499,7 +505,7 @@ export class Home extends React.Component {
       
       this.scene.collisionsEnabled = true;
       this.mainCam.checkCollisions = true;
-      this.mainCam.attachControl(this.canvas, true);
+      //this.mainCam.attachControl(this.canvas, true);
       this.debugCam = new BABYLON.ArcRotateCamera('debugCam', 0, 0, 10, new BABYLON.Vector3(0, 0, 0), this.scene);
       this.debugCam.setPosition(new BABYLON.Vector3(0, 10, 0));
       this.debugCam.attachControl(this.canvas, true);
@@ -510,10 +516,7 @@ export class Home extends React.Component {
       
       //this.showAxes.bind(this, 3);
       engine.hideLoadingUI();
-      this.showNarration();
-      setTimeout(() => {
-        this.startIntroNarration();
-      }, 1000);
+      this.showIntro();
       engine.runRenderLoop(() => {
         this.scene.render();
       });
@@ -522,6 +525,31 @@ export class Home extends React.Component {
     window.addEventListener('resize', () => {
       engine.resize();
     });
+  }
+  
+  startAmbientAudio() {
+    if (!this.isSoundPlaying) {
+      let audio = document.getElementsByTagName('audio')[0];
+      audio.volume = 0.1;
+      audio.play();
+      audio.onended = () => {
+        this.isSoundPlaying = false;
+        let timer = Math.floor(Math.random() * (+8000 - +2000)) + +2000;
+        setTimeout(() => {
+          this.startAmbientAudio();
+        }, timer);
+      };
+    }
+  }
+  
+  setupNarration() {
+    this.mainCam.attachControl(this.canvas, true);
+    this.hideIntro();
+    this.startAmbientAudio();
+    this.showNarration();
+    setTimeout(() => {
+      this.startNarrationText();
+    }, 1000);
   }
 
   showNarration() {
@@ -537,7 +565,7 @@ export class Home extends React.Component {
     });
   }
 
-  startIntroNarration() {
+  startNarrationText() {
     this.cutscene = true;
     this.introNarrationParams.forEach((item) => {
       setTimeout(() => {
@@ -590,10 +618,61 @@ export class Home extends React.Component {
     });
   }
 
+  showIntro() {
+    this.setState({
+      introVisibility:'intro_bg visible'
+    });
+    setTimeout(() => {
+      this.typeIntro(INTRO_TEXT);
+    }, 1000);
+  }
+
+  hideIntro() {
+    this.setState({
+      currentIntro:'',
+      introVisibility:'intro_bg',
+      showContinueButton:false
+    });
+  }
+  
+  appendIntro(newChar) {
+    let current = this.state.currentIntro;
+    this.setState({
+      currentIntro: current + newChar
+    });
+  }
+
+  typeIntro(string) {
+    for (let i=0; i < string.length; i++) {
+      setTimeout(() => {
+        this.appendIntro(string[i]);
+      }, i * 50);
+    }
+    setTimeout(() => {
+      this.setState({
+        showContinueButton:true
+      });
+    }, (string.length*50) + 500);
+  }
+  
   componentDidMount() {
+    this.cutscene = true;
     this.initializeScene();
   }
 
+  formatIntroText() {
+    let returnDiv = <div>{Parser(this.state.currentIntro)}</div>;
+    if (this.state.showContinueButton) {
+      returnDiv = <div>{Parser(this.state.currentIntro)}<button className={this.state.introButtonVisibility} onClick={this.setupNarration.bind(this)}>continue...?</button></div>
+      setTimeout(() => {
+        this.setState({
+          introButtonVisibility:'visible'
+        });
+      }, 50);
+    }
+    return returnDiv;
+  }
+  
   render() {
     return(
     <div>
@@ -602,6 +681,8 @@ export class Home extends React.Component {
       <div className="narration_fg">{this.state.currentNarration}</div>
       <div className={this.state.outputVisibility}></div>
       <div className="output_fg">{this.state.currentOutput}</div>
+      <div className={this.state.introVisibility}></div>
+      <div className="intro_fg" style={{display: this.state.currentIntro.length ? 'block' : 'none' }}>{this.formatIntroText()}</div>
         {/*
       <div className="controls">
         <button onClick={this.toggleLightBulb.bind(this)}>toggle light bulb</button>

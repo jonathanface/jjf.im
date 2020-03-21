@@ -116,3 +116,58 @@ canvas {
   line-height: 1rem;
   vertical-align: middle;
 }
+
+.intro_bg {
+  position:absolute;
+  border:1px solid #000;
+  top:10px;
+  width:0;
+  height:0;
+  background-color:#3e3e3e;
+  border-radius: 15px;
+  opacity: .0;
+  transition: width 1s, height 1s, opacity 2s;
+  margin-left:-40%;
+  left:50%;
+}
+.intro_bg.visible {
+  width:80%;
+  height:calc(100% - 20px);
+  opacity:0.5;
+}
+
+.intro_fg {
+  color:#0eff0e;
+  position:absolute;
+  top:10px;
+  width:80%;
+  height:calc(100% - 20px);
+  border-radius: 15px;
+  padding:10px;
+  padding-top:17px;
+  font-size: 1rem;
+  line-height: 1rem;
+  vertical-align: middle;
+  margin-left:-40%;
+  left:50%;
+  line-height:1.5rem;
+  letter-spacing:1.1px;
+}
+
+.intro_fg button {
+  background: none;
+  color: #0eff0e;
+  border: 1px solid #b4dbb4;
+  border-radius: 5px;
+  font-size: inherit;
+  padding: 5px 10px 5px 10px;
+  opacity:0;
+  transition:opacity 2s;
+}
+.intro_fg button.visible {
+  opacity:1;
+}
+.intro_fg button:hover {
+  cursor:pointer;
+  color:#a9cea9;
+}
