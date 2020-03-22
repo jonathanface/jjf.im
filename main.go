@@ -54,7 +54,7 @@ func serveResume(w http.ResponseWriter, req *http.Request) {
   host, _ := os.Hostname()
   filename := "C:\\Go\\work\\src\\jface\\jjf.im\\static\\media\\resume.pdf"
   if host != opts.PcName {
-    filename = "/var/www/html/jjf.im/static/media/resume.pdf"
+    filename = "/home/ec2-user/go/work/src/jface/jjf.im/static/media/resume.pdf"
   }
   f, err := os.Open(filename)
   if err != nil {

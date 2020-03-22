@@ -268,14 +268,22 @@ export class Home extends React.Component {
     }
   }
 
-  mouseClickSwitch() {
-    if (!this.cutscene) {
-      this.toggleLightBulb();
-      if (this.firstLightSwitchHit) {
-        this.firstLightSwitchHit = false;
-        let audio = document.getElementsByTagName('audio')[1];
-        audio.play();
+  mouseClickSwitch(event, t) {
+    console.log('clicked');
+    if (!this.clickedRecent) {
+      this.clickedRecent = true;
+      if (!this.cutscene) {
+        this.toggleLightBulb();
+        if (this.firstLightSwitchHit) {
+          this.firstLightSwitchHit = false;
+          let audio = document.getElementsByTagName('audio')[1];
+          audio.play();
+        }
       }
+      setTimeout(() => {
+        console.log('resetting click');
+        this.clickedRecent = false;
+      }, 500);
     }
   }
 
@@ -471,7 +479,7 @@ export class Home extends React.Component {
         
         let mouseOn = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, this.mouseOverSwitch.bind(this));
         let mouseOff = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOutTrigger, this.mouseOutSwitch.bind(this));
-        let mouseClick = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, this.mouseClickSwitch.bind(this));
+        let mouseClick = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickUpTrigger, this.mouseClickSwitch.bind(this));
         this.lightswitch.getChildMeshes().forEach(mesh => {
           mesh.actionManager = new BABYLON.ActionManager(this.scene);	
           mesh.actionManager.registerAction(mouseOn);
@@ -492,10 +500,10 @@ export class Home extends React.Component {
     this.scene.executeWhenReady(() => {
       this.addGround();
       if (this.isMobileDevice) {
-        this.mainCam = new BABYLON.DeviceOrientationCamera("DevOr_camera", new BABYLON.Vector3(0, 0, 0), this.scene);
+        this.mainCam = new BABYLON.DeviceOrientationCamera("DevOr_camera", new BABYLON.Vector3(START_POS.x, START_POS.y, START_POS.z), this.scene);
         // Sets the sensitivity of the camera to movement and rotation
-        this.mainCam.angularSensibility = 10;
-        this.mainCam.moveSensibility = 10;
+        //this.mainCam.angularSensibility = 1;
+        //this.mainCam.moveSensibility = 1;
       } else {
         this.mainCam = new BABYLON.UniversalCamera('camera', new BABYLON.Vector3(START_POS.x, START_POS.y, START_POS.z), this.scene);
       }
@@ -680,7 +688,7 @@ export class Home extends React.Component {
       <div className={this.state.narrationVisibility}></div>
       <div className="narration_fg">{this.state.currentNarration}</div>
       <div className={this.state.outputVisibility}></div>
-      <div className="output_fg">{this.state.currentOutput}</div>
+      <div className="output_fg"><div>Looking At:</div><div>{this.state.currentOutput}</div></div>
       <div className={this.state.introVisibility}></div>
       <div className="intro_fg" style={{display: this.state.currentIntro.length ? 'block' : 'none' }}>{this.formatIntroText()}</div>
         {/*
