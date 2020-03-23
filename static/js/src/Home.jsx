@@ -47,7 +47,8 @@ export class Home extends React.Component {
       introVisibility:'intro_bg',
       currentIntro:'',
       showContinueButton:false,
-      introButtonVisibility:''
+      introButtonVisibility:'',
+      outputFGDisplay:'none'
     };
   }
 
@@ -589,7 +590,9 @@ export class Home extends React.Component {
           currentNarration:''
         });
         this.hideNarration();
-        this.showOutput();
+        if (!this.isMobileDevice) {
+          this.showOutput();
+        }
         this.cutscene = false;
       }, 15000);
     });
@@ -597,13 +600,15 @@ export class Home extends React.Component {
 
   showOutput() {
     this.setState({
-      outputVisibility:'output_bg visible'
+      outputVisibility:'output_bg visible',
+      outputFGDisplay:'block'
     });
   }
 
   hideOutput() {
     this.setState({
-      outputVisibility:'output_bg'
+      outputVisibility:'output_bg',
+      outputFGDisplay:'none'
     });
   }
 
@@ -653,16 +658,33 @@ export class Home extends React.Component {
   }
 
   typeIntro(string) {
+    let tagString = '';
+    let tagIndex = 0;
+    let delayFactor = 45;
     for (let i=0; i < string.length; i++) {
+      if (string[i] == '<' || string[i] == '>' || tagString.length) {
+        tagString += string[i];
+        if (string[i] == '<') {
+          tagIndex = i;
+        }
+        if (string[i] == '>') {
+          let tempTagText = tagString;
+          setTimeout(() => {
+            this.appendIntro(tempTagText);
+          }, tagIndex * delayFactor);
+          tagString = '';
+        }
+        continue;
+      }
       setTimeout(() => {
         this.appendIntro(string[i]);
-      }, i * 50);
+      }, i * delayFactor);
     }
     setTimeout(() => {
       this.setState({
         showContinueButton:true
       });
-    }, (string.length*50) + 500);
+    }, (string.length*delayFactor) + 500);
   }
   
   componentDidMount() {
@@ -690,7 +712,7 @@ export class Home extends React.Component {
       <div className={this.state.narrationVisibility}></div>
       <div className="narration_fg">{this.state.currentNarration}</div>
       <div className={this.state.outputVisibility}></div>
-      <div className="output_fg"><div>Looking At:</div><div>{this.state.currentOutput}</div></div>
+      <div className="output_fg" style={{display:this.state.outputFGDisplay}}><div>Looking At:</div><div>{this.state.currentOutput}</div></div>
       <div className={this.state.introVisibility}></div>
       <div className="intro_fg" style={{display: this.state.currentIntro.length ? 'block' : 'none' }}>{this.formatIntroText()}</div>
         {/*

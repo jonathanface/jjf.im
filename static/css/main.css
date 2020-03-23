@@ -118,6 +118,7 @@ canvas {
   font-size: 1rem;
   line-height: 1rem;
   vertical-align: middle;
+  display:none;
 }
 
 .output_fg > div:first-child {
@@ -203,5 +204,8 @@ canvas {
   }
   .narration_bg {
     width:90% !important;
+  }
+  .output_bg, .output_fg {
+    display:none;
   }
 }
