@@ -532,6 +532,8 @@ export class Home extends React.Component {
     // Watch for browser/canvas resize events
     window.addEventListener('resize', () => {
       engine.resize();
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
     });
   }
   
